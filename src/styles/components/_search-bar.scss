@@ -1,0 +1,14 @@
+.search-bar {
+  @include flex;
+  @include flex_align;
+  @include sm {
+    flex-direction: column;
+  }
+
+  .dropdown {
+    flex: 0 0 156px;
+    @include sm {
+      flex: 0 0 auto;
+    }
+  }
+}

@@ -1,0 +1,107 @@
+.concerned {
+  @include flex;
+  @include flex_align;
+  @include flex_justify(space-between);
+  padding: 18px 16px;
+  background-color: $BaseWhite;
+  box-shadow: 0px 3px 0px $BaseBlack;
+  border: 2px solid $BaseBlack;
+  border-radius: 8px;
+
+  &.flex-bottom {
+    @include flex_align(flex-end);
+  }
+
+  .avatar__img {
+    border: none;
+  }
+
+  .avatar__text {
+    font-size: 0.875rem;
+  }
+
+  &__text {
+    font-size: 0.875rem;
+    line-height: 20px;
+    color: $BaseBlack;
+  }
+
+  &__btn-list {
+    @include flex;
+    @include flex_align;
+  }
+
+  &__btn {
+    cursor: pointer;
+    text-align: center;
+
+    @include sm {
+      @include flex;
+      @include flex_align;
+
+      &__text {
+        @include auto_margin_left(8px);
+      }
+    }
+
+    &__text {
+      font-size: 0.875rem;
+      font-weight: bold;
+      line-height: 1.5;
+      white-space: nowrap;
+      color: $BaseBlack;
+    }
+
+    &__icon {
+      font-size: 1.5rem;
+      color: $BaseBlack;
+
+      &.blue {
+        color: $BrandColor;
+      }
+    }
+  }
+}
+
+.concerned-empty {
+  background-color: $BaseWhite;
+  box-shadow: 0px 3px 0px $BaseBlack;
+  border: 2px solid $BaseBlack;
+  border-radius: 8px;
+
+  &__title {
+    @include flex;
+    @include flex_align;
+    padding: 19px 16px;
+    border-bottom: 2px solid $BaseBlack;
+  }
+
+  &__circle {
+    @include auto_margin_left(6px);
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    border: 1px solid $FrameLine;
+
+    &.red {
+      background-color: #de4b63;
+    }
+
+    &.yellow {
+      background-color: #faa722;
+    }
+
+    &.green {
+      background-color: #83c51d;
+    }
+  }
+
+  &__content {
+    @include flex_center;
+    padding: 32px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: $Secondary;
+  }
+}

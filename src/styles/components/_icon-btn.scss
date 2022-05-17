@@ -1,0 +1,123 @@
+.icon-btn {
+  @include flex;
+  @include flex_align;
+
+  &:hover {
+    .icon-btn__icon {
+      color: $BaseWhite;
+      background-color: $BrandColor;
+    }
+
+    .icon-btn__text {
+      color: $BrandColor;
+    }
+  }
+
+  &.bold {
+    .icon-btn__icon {
+      border: 3px solid $BaseBlack;
+    }
+  }
+
+  &.primary {
+    &:hover {
+      .icon-btn__icon {
+        background-color: $Warning;
+      }
+    }
+
+    .icon-btn__icon {
+      color: $BaseWhite;
+      background-color: $BrandColor;
+    }
+  }
+
+  &.white {
+    &:hover {
+      .icon-btn__icon {
+        color: $BaseWhite;
+        background-color: $BrandColor;
+      }
+    }
+
+    .icon-btn__icon {
+      background-color: $BaseWhite;
+    }
+  }
+
+  &.primary-text {
+    cursor: pointer;
+    padding: 0;
+
+    &:hover {
+      .icon-btn__icon,
+      .icon-btn__text {
+        color: $Warning;
+      }
+    }
+
+    .icon-btn__text {
+      @include auto_margin_left(8px);
+      font-weight: normal;
+    }
+
+    .icon-btn__icon {
+      width: auto;
+      height: auto;
+      border: 0;
+      color: $BrandColor;
+      background-color: transparent;
+    }
+  }
+
+  &.gray-text {
+    cursor: pointer;
+    padding: 0;
+
+    &:hover {
+      .icon-btn__icon,
+      .icon-btn__text {
+        color: $BrandColor;
+      }
+    }
+
+    .icon-btn__text {
+      @include auto_margin_left(8px);
+      font-weight: normal;
+      color: $Secondary;
+    }
+
+    .icon-btn__icon {
+      width: auto;
+      height: auto;
+      border: 0;
+      color: $Secondary;
+      background-color: transparent;
+    }
+  }
+
+  &__icon {
+    @include ts;
+    @include flex_center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    box-sizing: border-box;
+    color: $BaseBlack;
+    border: 2px solid $BaseBlack;
+    background-color: $Info;
+  }
+
+  &__text {
+    @include ts;
+    @include auto_margin_left(16px);
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1.5;
+    color: $BaseBlack;
+    .fw-bold {
+      font-weight: bold;
+    }
+  }
+}

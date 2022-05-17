@@ -1,0 +1,85 @@
+@mixin border($direction: 'all', $color: #000400, $radius: 0px) {
+  border-radius: $radius;
+
+  @if $direction == 'all' {
+      border: 2px solid $color;
+  } @else if $direction == up {
+      border-top: 2px $color solid;
+  } @else if $direction == right {
+      border-right: 2px $color solid;
+  } @else if $direction == down {
+      border-bottom: 2px $color solid;
+  } @else if $direction == left {
+      border-left: 2px $color solid;
+  } @else {
+      border: 2px solid $color;
+      @error "Unknown direction #{$direction}.";
+  }
+}
+
+@mixin avatar {
+  @include border();
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+@mixin flex() {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin flex_justify($align: center) {
+  -webkit-justify-content: $align;
+  justify-content: $align;
+}
+
+@mixin flex_align($align: center) {
+  -webkit-box-align: $align;
+  -moz-box-align: $align;
+  -ms-flex-align: $align;
+  -webkit-align-items: $align;
+  align-items: $align;
+}
+
+@mixin flex_center() {
+  @include flex;
+  @include flex_align;
+  @include flex_justify;
+}
+
+@mixin bg-img() {
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+@mixin auto_margin_top($distance) {
+  margin-top: $distance;
+  &:nth-child(1) {
+    margin-top: 0;
+  }
+}
+
+@mixin auto_margin_left($distance) {
+  margin-left: $distance;
+  &:nth-child(1) {
+    margin-left: 0;
+  }
+}
+
+@mixin auto_margin_right($distance) {
+  margin-right: $distance;
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+@mixin ts($duration: 0.2s, $target: all) {
+  transition: $target $duration;
+  -ms-transition: $target $duration;
+  -moz-transition: $target $duration;
+  -webkit-transition: $target $duration;
+}

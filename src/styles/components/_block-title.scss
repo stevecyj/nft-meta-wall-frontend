@@ -1,0 +1,44 @@
+.block-title {
+  @include flex_center;
+  position: relative;
+  padding: 18px;
+  height: 64px;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  font-weight: bold;
+  color: $BaseBlack;
+  background-color: $BaseWhite;
+  border: 2px solid $BaseBlack;
+  box-sizing: border-box;
+
+  &.radius {
+    border-radius: 8px;
+
+    &::after {
+      border-radius: 8px;
+    }
+  }
+
+  &.track {
+    padding: 16px 16px 16px 0px;
+    height: 80px;
+
+    &::after {
+      height: 80px;
+    }
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 2px;
+    left: -6px;
+    display: block;
+    width: 100%;
+    height: 64px;
+    background-color: $BaseWhite;
+    border: 2px solid $BaseBlack;
+    box-sizing: border-box;
+  }
+}

@@ -1,0 +1,48 @@
+.like-btn {
+  @include flex;
+  @include flex_align;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+
+  &:hover {
+    .like-btn__icon {
+      transition: 0.3s;
+      color: $Secondary;
+    }
+    .like-btn__text {
+      transition: 0.3s;
+      color: $Secondary;
+    }
+  }
+
+  &__icon {
+    margin-right: 4px;
+    color: $BrandColor;
+    transition: 0.3s;
+
+    &:hover {
+      color: $Secondary;
+    }
+  }
+}
+
+.like-btn-empty {
+  @include flex;
+  @include flex_align;
+  border: none;
+
+  .like-btn__icon {
+    color: $Secondary;
+
+    &:hover {
+      color: $BrandColor;
+    }
+  }
+
+  .like-btn__text {
+    color: $Secondary;
+  }
+}
+
+

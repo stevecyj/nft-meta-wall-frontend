@@ -1,0 +1,97 @@
+/* 導覽列 */
+.header {
+  padding: 12px;
+  height: 60px;
+  top: 0;
+  z-index: 100;
+  background-color: $BaseWhite;
+  border-bottom: 3px solid $BaseBlack;
+  box-sizing: border-box;
+
+  .logo {
+    font-size: 1.625rem;
+    line-height: 36px;
+    font-family: 'Paytone One', sans-serif;
+    color: $BaseBlack;
+  }
+
+  &__container {
+    @include flex;
+    @include flex_align;
+    justify-content: space-between;
+    margin: 0 auto;
+  }
+
+  &__avatar__dropdown {
+    position: relative;
+    z-index: 1000;
+    cursor: pointer;
+
+    &:hover {
+      .header__avatar__dropdown__items {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    &__content {
+      @include flex;
+      @include flex_align;
+
+      .header__avatar__img {
+        padding-right: 10px;
+        object-fit: contain;
+        min-width: 30px;
+        height: 30px;
+      }
+    }
+
+    &__text {
+      font-size: 1rem;
+      line-height: 19px;
+      font-weight: bold;
+      border-bottom: 2px solid $BaseBlack;
+    }
+
+    &__items {
+      @include ts;
+      position: absolute;
+      z-index: 100;
+      margin-top: 10px;
+      left: -75%;
+      top: 80%;
+      width: 182px;
+      border: 2px solid $BaseBlack;
+      background-color: $BaseWhite;
+      opacity: 0;
+      visibility: hidden;
+      box-shadow: 6px 6px 0px -2px #ffffff, 6px 6px 0px 0px #000400, 16px -20px 0px 5px rgb(255 127 0 / 0%);
+
+      &.active {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    &__item {
+      @include ts;
+      padding: 8px;
+      border-top: 2px solid $BaseBlack;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $BackGroundColor;
+      }
+
+      &:first-child {
+        border-top: none;
+      }
+
+      a {
+        font-size: 1rem;
+        line-height: 1.5;
+        color: $BaseBlack;
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+.search-input {
+  @include flex;
+  @include flex_align;
+  width: 100%;
+  height: 46px;
+  border: 2px solid $BaseBlack;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin-left: 12px;
+
+  @include sm {
+    margin-left: 0px;
+    margin-top: 8px;
+  }
+
+  &__input {
+    padding: 8px 16px;
+    width: 100%;
+    background-color: $BaseWhite;
+    color: $BaseBlack;
+
+    input {
+      padding: 0;
+      width: 100%;
+      font-size: 1rem;
+      border: none;
+
+      &::placeholder {
+        color: $Secondary;
+      }
+    }
+  }
+
+  &__btn {
+    cursor: pointer;
+    @include ts;
+    flex: 0 0 46px;
+    height: 46px;
+    font-size: 1rem;
+    color: $BaseWhite;
+    background-color: $BrandColor;
+    border: none;
+    border-left: 2px solid $BaseBlack;
+    box-sizing: border-box;
+
+    &:not(.disabled):hover {
+      background-color: $Warning;
+    }
+  }
+}

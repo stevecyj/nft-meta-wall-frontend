@@ -1,0 +1,47 @@
+.loading {
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.loading-container {
+  position: fixed;
+  min-height: 100vh;
+  width: 100%;
+  opacity: 0.8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: $LoadingBGC;
+  z-index: 10000000;
+  overflow: hidden;
+}
+
+.bouncing__loader {
+  display: flex;
+  justify-content: center;
+}
+
+@keyframes bouncing-loader {
+  to {
+    opacity: 0.1;
+    transform: translate3d(0, -1rem, 0);
+  }
+}
+
+.bouncing__loader > div {
+  width: 1rem;
+  height: 1rem;
+  margin: 3rem 0.2rem;
+  background: $BrandColor;
+  border-radius: 50%;
+  animation: bouncing-loader 0.6s infinite alternate;
+}
+
+.bouncing__loader > div:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.bouncing__loader > div:nth-child(3) {
+  animation-delay: 0.4s;
+}

@@ -1,0 +1,13 @@
+.message {
+  padding: 18px 16px;
+  border-radius: 12px;
+  background-color: rgb(239, 236, 231, 0.3);
+
+  &__content {
+    @include auto_margin_top(6px);
+    padding-left: 68px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: $BaseBlack;
+  }
+}

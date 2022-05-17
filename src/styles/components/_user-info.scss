@@ -1,0 +1,27 @@
+.user-info {
+  width: 100%;
+  margin-top: 12px;
+
+  @include sm {
+    margin-top: 8px;
+  }
+
+  &__label {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: $BaseBlack;
+  }
+
+  &__error-message {
+    @include auto_margin_top(4px);
+    text-align: left;
+    font-size: 0.875rem;
+    color: $Danger;
+  }
+
+  .error-message {
+    text-align: center;
+    font-size: 0.875rem;
+    color: $Danger;
+  }
+}

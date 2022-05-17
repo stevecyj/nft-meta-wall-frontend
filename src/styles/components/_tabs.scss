@@ -1,0 +1,31 @@
+.tabs {
+  @include flex;
+  @include flex_align;
+
+  .tab {
+    @include ts;
+    cursor: pointer;
+    padding: 8px 24px;
+    background-color: $BaseWhite;
+    border: 2px solid $BaseBlack;
+    border-bottom: none;
+    border-radius: 8px 8px 0px 0px;
+
+    &:hover {
+      background-color: $FrameLine;
+      color: $BaseWhite;
+    }
+
+    &.active {
+      background-color: $BaseBlack;
+      color: $BaseWhite;
+    }
+
+    a {
+      @include ts;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: $BaseBlack;
+    }
+  }
+}

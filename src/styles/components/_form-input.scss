@@ -1,0 +1,25 @@
+.form-input {
+  @include ts;
+  padding: 14px 24px;
+  border: 2px solid $BaseBlack;
+  background-color: $BaseWhite;
+  color: $BaseBlack;
+
+  &:focus {
+    border: 2px solid $BrandColor;
+  }
+
+  &:active {
+    border: 2px solid $BrandColor;
+  }
+
+  input {
+    width: 100%;
+    font-size: 1rem;
+    border: none;
+
+    &::placeholder {
+      color: $Secondary;
+    }
+  }
+}

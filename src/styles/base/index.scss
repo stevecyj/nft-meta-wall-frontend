@@ -1,0 +1,67 @@
+@import '@/styles/mixin/index.scss';
+@import '@/styles/grid';
+
+body {
+  width: 100%;
+  z-index: 1;
+  background-color: ($BackGroundColor, 0.6);
+  background-image: linear-gradient($FrameLine 0.3px, transparent 0.3px),
+    linear-gradient(to right, $FrameLine 0.3px, $BackGroundColor 0.3px);
+  background-size: 44px 44px;
+  line-height: 1.5;
+}
+
+a {
+  display: block;
+  text-decoration: none;
+  color: $BaseBlack;
+}
+
+/* 通用CSS */
+.padding {
+  padding: 8px 0;
+}
+
+.bg-white {
+  background: #fff !important;
+}
+
+.container {
+  width: 100%;
+  max-width: 869px;
+  margin: 0 auto;
+
+  @include md {
+    max-width: calc(100% - 80px);
+  }
+
+  @include sm {
+    max-width: calc(100% - 40px);
+  }
+}
+
+.row {
+  width: 865px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.border {
+  @include border();
+
+  border: 2px solid #000400;
+}
+
+.border-bottom {
+  @include border('down');
+}
+
+.border-bottom-white {
+  @include border('down', #fff);
+}
+
+.pos-sticky {
+  position: sticky;
+}

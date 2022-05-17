@@ -1,0 +1,31 @@
+{
+  "name": "nft-meta-wall-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "mocks": "mocks-server"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cross-env": "^7.0.3",
+    "dayjs": "^1.11.2",
+    "js-cookie": "^3.0.1",
+    "mockjs": "^1.1.0",
+    "vite-plugin-mock": "^2.9.6",
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.13",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.1",
+    "sass": "^1.51.0",
+    "scss": "^0.2.4",
+    "vite": "^2.9.7"
+  },
+  "msw": {
+    "workerDirectory": "public"
+  }
+}

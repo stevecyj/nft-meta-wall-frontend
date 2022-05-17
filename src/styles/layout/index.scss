@@ -1,0 +1,58 @@
+
+@import 'header';
+
+.main {
+  @include flex;
+  @include flex_align(flex-start);
+  position: relative;
+  padding: 49px 0;
+
+  .fixed-menu-layout__menu {
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 10;
+    top: 109px;
+    flex: 0 0 309px;
+
+    &.start {
+      margin-right: 27px;
+    }
+
+    &.end {
+      margin-left: 27px;
+    }
+
+    @media (max-width: 767px) {
+      display: none;
+      flex: 0 0 192px;
+    }
+  }
+
+  .fixed-menu-layout__content {
+    position: relative;
+    width: 100%;
+  }
+
+  .navigation-bar-container {
+    display: none;
+
+    @include sm {
+      display: block;
+    }
+  }
+
+  .navigationBar {
+    @include flex_center;
+    padding: 8px;
+    width: calc(100% - 16px);
+    box-sizing: border-box;
+    border-radius: 32px;
+    border: 3px solid $BaseBlack;
+    background-color: $BackGroundColor;
+
+    .navigation-btn {
+      flex: 0 0 48px;
+      height: 48px;
+    }
+  }
+}

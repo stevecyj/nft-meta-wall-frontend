@@ -1,0 +1,37 @@
+
+.form-radio {
+  @include flex;
+  @include flex_align;
+
+  .radio {
+    @include flex;
+    @include flex_align;
+    cursor: pointer;
+
+    .radio__input {
+      display: none;
+
+      &:not(:checked) ~ .un-checked {
+        display: block;
+      }
+
+      &:not(:checked) ~ .checked {
+        display: none;
+      }
+    }
+
+    .un-checked {
+      display: none;
+    }
+
+    .radio__input-icon {
+      color: $BaseBlack;
+    }
+
+    .radio__input-text {
+      @include auto_margin_left(8px);
+      line-height: 19px;
+      color: $BaseBlack;
+    }
+  }
+}

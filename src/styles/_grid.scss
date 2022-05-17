@@ -1,0 +1,37 @@
+//container
+
+@mixin md {
+  @media screen and (max-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin sm {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
+
+.container {
+  max-width: 869px;
+  margin: 0 auto;
+
+  @include md {
+    max-width: calc(100% - 80px);
+  }
+
+  @include sm {
+    max-width: calc(100% - 40px);
+  }
+}
+
+.center-container {
+  max-width: 323px;
+  margin: 0 auto;
+}
+
+.fixed-bottom {
+  position: fixed;
+  bottom: 8px;
+  left: 8px;
+}

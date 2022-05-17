@@ -1,0 +1,52 @@
+.message-bar {
+  @include flex;
+  @include flex_align;
+  width: 100%;
+
+  .avatar__img {
+    min-width: 40px;
+    height: 40px;
+  }
+
+  &__content {
+    @include flex;
+    @include flex_align;
+    width: 100%;
+    height: 40px;
+    border: 2px solid $BaseBlack;
+
+    &__input {
+      padding: 8px 16px;
+      width: 100%;
+      color: $BaseBlack;
+
+      input {
+        padding: 0;
+        width: 100%;
+        font-size: 1rem;
+        border: none;
+
+        &::placeholder {
+          color: $Secondary;
+        }
+      }
+    }
+
+    &__btn {
+      @include ts;
+      cursor: pointer;
+      flex: 0 0 128px;
+      height: 40px;
+      font-size: 1rem;
+      color: $BaseWhite;
+      background-color: $BrandColor;
+      border: 2px solid $BaseBlack;
+      border-right: none;
+      box-sizing: border-box;
+
+      &:not(.disabled):hover {
+        background-color: $Warning;
+      }
+    }
+  }
+}

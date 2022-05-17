@@ -1,0 +1,82 @@
+.btn {
+  @include ts;
+  cursor: pointer;
+  padding: 16px;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: bold;
+  color: $BaseWhite;
+  background-color: $BrandColor;
+  border: 2px solid $BaseBlack;
+  border-radius: 8px;
+  box-shadow: -2px 2px 0px $BaseBlack;
+  white-space: nowrap;
+  text-align: center;
+
+  &:not(.disabled):hover {
+    background-color: $Warning;
+  }
+
+  &.gray {
+    color: $BaseBlack;
+    background-color: $BackGroundColor;
+    &:not(.disabled):hover {
+      color: $BaseWhite;
+      background-color: $BrandColor;
+    }
+  }
+
+  &.secondary {
+    color: $BaseBlack;
+    background-color: $Warning;
+    &:not(.disabled):hover {
+      color: $BaseWhite;
+      background-color: $BrandColor;
+    }
+  }
+
+  &.disabled {
+    background-color: $Disabled;
+    border: 2px solid $BaseBlack-800;
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  &.small {
+    padding: 6px 32px;
+    width: auto;
+    height: 36px;
+  }
+}
+
+.text-btn {
+  @include ts;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: $BaseBlack;
+  font-size: 1rem;
+
+  &:hover {
+    color: $BrandColor;
+  }
+
+  &.radius-4 {
+    border-radius: 4px;
+  }
+
+  &.black {
+    @include ts;
+    cursor: pointer;
+    padding: 4px 24px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: $BaseWhite;
+    background-color: $BaseBlack;
+
+    &:hover {
+      color: $BaseWhite;
+      background-color: $BrandColor;
+    }
+  }
+}

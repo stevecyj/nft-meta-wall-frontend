@@ -1,0 +1,24 @@
+.avatar-upload {
+  @include flex_center;
+  flex-direction: column;
+
+  .avatar__img {
+    width: 107px;
+    height: 107px;
+  }
+
+  &__btn {
+    @include ts;
+    cursor: pointer;
+    padding: 4px 24px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: $BaseWhite;
+    background-color: $BaseBlack;
+
+    &:hover {
+      color: $BaseWhite;
+      background-color: $BrandColor;
+    }
+  }
+}
