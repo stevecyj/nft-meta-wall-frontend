@@ -42,14 +42,15 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
-    const res = response.data
+    const res = response.data;
+    const status = response.status;
 
     // if the custom code is not 200, it is judged as an error.
-    if (res.code !== 200) {
+    if (status !== 200) {
       // do something
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
+      if (status === 50008 || status === 50012 || status === 50014) {
         // do something
       }
 

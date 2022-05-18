@@ -57,6 +57,7 @@ import { defineComponent, reactive, ref} from 'vue';
 import { useStore } from 'vuex';
 import { uploadImage } from '@/api/image.js';
 import { createPost } from '@/api/post';
+import router from '../router';
 
 export default defineComponent({
   name: 'PublishPost',
@@ -135,9 +136,18 @@ export default defineComponent({
         let image = '';
         file?.size && (image = await submitImage());
 
-        await createPost({content: content.value, image});
+        const userId = store.getters['user/userInfo']?.id; // test
+        const { status, data } = await store.dispatch('post/addPost', { userId, content: content.value, image });
+
+        if (status === 'success' && data.author) {
+          router.push({ path: `/personal/${data.author}` });
+        } else {
+          router.push({ path: '/home' });
+        }
       } catch (error) {
         console.log('create post error', error);
+
+        router.push({ path: '/home' });
       } finally {
         store.dispatch('ui/toggleLoading', false);
       }

@@ -15,15 +15,13 @@
       <div class="post" style="margin-top: 16px">
         <!-- 貼文擁有者資料 -->
         <div class="avatar">
-          <img
-            class="avatar__img"
-            :src="post.userPhoto"
-          />
+          <img v-if="post.author.avatar !== ''" class="avatar__img" :src="post.author.avatar" />
+          <img v-else class="avatar__img" src="@/assets/user5-1.png" />
           <div style="margin-left: 16px;">
             <router-link
-              :to="`/personal/${post.userId}`"
+              :to="`/personal/${post.author._id}`"
               class="link"
-            >{{ post.userName }}</router-link>
+            >{{ post.author.name }}</router-link>
             <p class="avatar__text">
               {{ timeToLocalTime(post.createAt) }}
             </p>
@@ -35,7 +33,7 @@
         </div>
         <!-- 貼文圖片 -->
         <img
-          v-if="post.image"
+          v-if="post.image !== ''"
           class="post__img"
           :src="post.image"
         />
@@ -82,18 +80,24 @@
           <div class="message" style="margin-top: 16px;">
             <div class="avatar">
               <img
+                v-if="comment.user.avatar !== ''"
                 class="avatar__img"
-                :src="comment.userPhoto"
+                :src="comment.user.avatar"
+              />
+              <img
+                v-else
+                class="avatar__img"
+                src="@/assets/user5-3.png"
               />
               <div style="margin-left: 16px">
                 <router-link
-                  :to="`/personal/${comment.userId}`"
+                  :to="`/personal/${comment.user._id}`"
                   class="link"
-                >{{ comment.userName }}</router-link>
-                <p class="avatar__text">{{ timeToLocalTime(comment.createAt) }}</p>
+                >{{ comment.user.name }}</router-link>
+                <p class="avatar__text">{{ timeToLocalTime(comment.createdAt) }}</p>
               </div>
             </div>
-            <div class="message__content">{{ comment.message }}</div>
+            <div class="message__content">{{ comment.comment }}</div>
           </div>
         </div>
       </div>
@@ -102,7 +106,7 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { timeToLocalTime } from '@/utils/time';
 
 export default defineComponent({
@@ -116,7 +120,9 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const posts = props.posts;
+    const posts = computed(() => {
+      return props.posts;
+    });
 
     return {
       posts,

@@ -3,7 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development vite",
+    "dev": "vite --mode development",
+    "prod": "vite --mode production",
     "build": "vite build",
     "preview": "vite preview",
     "mocks": "mocks-server"
