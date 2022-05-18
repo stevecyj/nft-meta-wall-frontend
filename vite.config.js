@@ -5,7 +5,7 @@ import { viteMockServe } from "vite-plugin-mock";
 
 
 export default defineConfig({
-  // base: '/dist/', // gh-pages 設定路徑
+  base: '/nft-meta-wall/', // gh-pages 設定路徑
   plugins: [
     vue(),
     viteMockServe({
