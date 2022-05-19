@@ -25,6 +25,4 @@ export default defineComponent({
   position: relative;
   width: 100%;
 }
-
-
 </style>
