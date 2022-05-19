@@ -4,6 +4,7 @@ import { defineConfig } from 'vite';
 import { viteMockServe } from 'vite-plugin-mock';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 
 export default defineConfig({
   base: '/nft-meta-wall-frontend/', // gh-pages 設定路徑
@@ -21,6 +22,11 @@ export default defineConfig({
       extensions: ['vue'],
       include: [/\.vue$/, /\.vue\?vue/],
       dts: 'src/auto-components.js',
+    }),
+    createSvgIconsPlugin({
+      // 處理 svg icon
+      iconDirs: [path.resolve(process.cwd(), 'src/assets/svg')],
+      symbolId: '[dir]/[name]',
     }),
   ],
   resolve: {
