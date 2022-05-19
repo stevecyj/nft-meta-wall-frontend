@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite --mode development",
+    "dev": "vite --mode development --host --port 8080",
     "prod": "vite --mode production",
     "build": "vite build",
     "preview": "vite preview",
