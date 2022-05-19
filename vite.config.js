@@ -1,18 +1,17 @@
 import vue from '@vitejs/plugin-vue';
-import path from "path";
+import path from 'path';
 import { defineConfig } from 'vite';
-import { viteMockServe } from "vite-plugin-mock";
-
+import { viteMockServe } from 'vite-plugin-mock';
 
 export default defineConfig({
-  base: '/nft-meta-wall/', // gh-pages 設定路徑
+  base: '/nft-meta-wall-frontend/', // gh-pages 設定路徑
   plugins: [
     vue(),
     viteMockServe({
-      supportTs: true
-    })
+      supportTs: true,
+    }),
   ],
   resolve: {
-    alias: {'@/': `${path.resolve(__dirname, 'src')}/`}
+    alias: { '@/': `${path.resolve(__dirname, 'src')}/` },
   },
-})
+});
