@@ -27,7 +27,9 @@
     "unplugin-auto-import": "^0.7.2",
     "unplugin-vue-components": "^0.19.5",
     "vite": "^2.9.7",
-    "vite-plugin-svg-icons": "^2.0.1"
+    "vite-plugin-pages": "^0.23.0",
+    "vite-plugin-svg-icons": "^2.0.1",
+    "vite-plugin-vue-layouts": "^0.6.0"
   },
   "msw": {
     "workerDirectory": "public"
