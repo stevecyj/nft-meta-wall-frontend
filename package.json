@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --mode development --host --port 8080",
-    "prod": "vite --mode production",
+    "prod": "vite --mode production --host --port 8080",
     "build": "vite build",
     "preview": "vite preview",
     "mocks": "mocks-server"

@@ -1,52 +1,57 @@
-import { login, logout } from '@/api/user';
-import { getLocalStorageToken, setLocalStorageToken, removeLocalStorageToken } from '@/utils/auth';
+import { login, logout } from "@/api/user";
+import {
+  getLocalStorageToken,
+  setLocalStorageToken,
+  removeLocalStorageToken,
+} from "@/utils/auth";
 
 export const state = {
   token: getLocalStorageToken(),
-  name: '',
-  id: '627fa403e11fff95efe0cde6', // test
-  avatar: '',
+  name: "",
+  id: "627fa403e11fff95efe0cde6", // test
+  avatar: "",
   roles: [],
 };
 
 export const actions = {
-    // user login
-    async login({ commit }, userInfo) {
-      try {
-        const { email, password } = userInfo;
-        // const { data } = await login({ email: email.trim(), password: password });
-        const  data = { token: '123' } // 假資料
+  // user login
+  async login({ commit }, userInfo) {
+    try {
+      const { email, password } = userInfo;
+      const data = await login({ email: email.trim(), password: password });
+      // const  data = { token: '123' } // 假資料
+      // console.log(data.user);
 
-        commit('SET_TOKEN', data.token);
-        setLocalStorageToken(data.token);
-      } catch (error) {
-        console.log(error);
+      commit("SET_TOKEN", data.user.token);
+      setLocalStorageToken(data.user.token);
+    } catch (error) {
+      console.log(error);
 
-        return error;
-      }
-    },
-    async logout({ commit, state, dispatch }) {
-      try {
-        // await logout(state.token);
+      return error;
+    }
+  },
+  async logout({ commit, state, dispatch }) {
+    try {
+      // await logout(state.token);
 
-        commit('SET_TOKEN', '');
-        commit('SET_ROLES', []);
-        removeLocalStorageToken();
-      } catch (error) {
-        console.log(error);
+      commit("SET_TOKEN", "");
+      commit("SET_ROLES", []);
+      removeLocalStorageToken();
+    } catch (error) {
+      console.log(error);
 
-        return error;
-      }
-    },
-  
-    resetLocalStorageToken({ commit }) {
-      return new Promise(resolve => {
-        commit('SET_TOKEN', '');
-        commit('SET_ROLES', []);
-        removeLocalStorageToken();
-        resolve();
-      })
-    },
+      return error;
+    }
+  },
+
+  resetLocalStorageToken({ commit }) {
+    return new Promise((resolve) => {
+      commit("SET_TOKEN", "");
+      commit("SET_ROLES", []);
+      removeLocalStorageToken();
+      resolve();
+    });
+  },
 };
 
 export const mutations = {
@@ -61,11 +66,11 @@ export const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles;
-  }
+  },
 };
 
 export const getters = {
-  isLogin: state => state.token !== '' || state.token !== null,
+  isLogin: (state) => state.token !== "" || state.token !== null,
   userInfo: (state) => {
     const { name, id, avatar, roles } = state;
 
@@ -75,7 +80,7 @@ export const getters = {
       avatar,
       roles,
     };
-  }
+  },
 };
 
 export default {
@@ -84,4 +89,4 @@ export default {
   mutations,
   getters,
   namespaced: true,
-}
+};
