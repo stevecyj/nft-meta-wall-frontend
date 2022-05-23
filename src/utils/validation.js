@@ -22,6 +22,14 @@ export const emailRule = (email) => {
  * @return { boolean } boolean - 判斷是否符合規則或不符合規則的訊息
  */
 export const passwordRule = (password) => {
-  // return /^((?=\S*?[A-Za-z])(?=\S*?[0-9]).{8,16})\S$/.test(password);
-  return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,16}$/.test(password);
+  return /^((?=\S*?[A-Za-z])(?=\S*?[0-9]).{8,})\S$/.test(password);
 };
+
+/** 圖片格式驗證
+ * @desc 密碼驗證
+ * @param { filename } string - image test
+ * @return { boolean } boolean - 驗證通過回傳 true, 否則 false
+ */
+export const imageTypeRule = (filename)=> {
+  return /\.(jpg|png|JPG|PNG|jpeg)$/.test(filename);
+}
