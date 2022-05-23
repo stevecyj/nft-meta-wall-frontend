@@ -102,8 +102,9 @@ export default defineComponent({
       email: '',
       password: '',
     });
-    watch(accountStatus, (newStatus) => {
-      console.log('newStatus', newStatus);
+
+    const status = computed(() => {
+      return store.getters['user/verifyResponse'];
     });
 
     const register = async () => {
@@ -119,15 +120,19 @@ export default defineComponent({
         ? (isVerifiedPassword.value = false)
         : (isVerifiedPassword.value = true);
 
-      if (isVerifiedNickname.value && isVerifiedEmail.value && isVerifiedPassword.value) {
-        router.push({ path: '/login' });
-      }
+      // if (isVerifiedNickname.value && isVerifiedEmail.value && isVerifiedPassword.value) {
+      //   router.push({ path: '/login' });
+      // }
 
-      const registerResult = await store.dispatch('user/register', { ...registerForm });
-      console.log('registerResult', registerResult);
-
-      // router.push({ path: '/login' });
+      await store.dispatch('user/register', { ...registerForm });
     };
+
+    watch(status.value, (newStatus) => {
+      if (newStatus.status === 'success') {
+        router.push({ path: '/login' });
+        store.dispatch('user/setDefaultResponse');
+      }
+    });
 
     return {
       registerForm,

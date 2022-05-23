@@ -98,6 +98,7 @@ export default defineComponent({
       // console.log('newStatus changed', newStatus.status);
       if (newStatus.status === 'success') {
         router.push({ path: '/home' });
+        store.dispatch('user/setDefaultResponse');
       }
     });
 
