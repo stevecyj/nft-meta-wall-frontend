@@ -1,51 +1,74 @@
 <template>
   <div class="container">
     <div class="row">
-        <div class="col">
-            <img src="@/assets/img.svg" alt="meta wall image">
-        </div>
-        <div class="col">
-            <div class="login__block" ref="loginFormRef">
-                <div class="login__title">
-                    <img src="@/assets/MetaWall.png" alt="meta wall logo">
-                    <p class="text">到元宇宙展開全新社交圈</p>
-                </div>
-                <div class="login__input">
-                    <input v-model="loginForm.email" type="email" placeholder="Email">
-                    <input v-model="loginForm.password" type="password" name="" id=" " placeholder="Password">
-                </div>
+      <div class="col">
+        <img
+          src="@/assets/img.svg"
+          alt="meta wall image"
+        >
+      </div>
+      <div class="col">
+        <div
+          class="login__block"
+          ref="loginFormRef"
+        >
+          <div class="login__title">
+            <img
+              src="@/assets/MetaWall.png"
+              alt="meta wall logo"
+            >
+            <p class="text">到元宇宙展開全新社交圈</p>
+          </div>
+          <div class="login__input">
+            <input
+              v-model="loginForm.email"
+              type="email"
+              placeholder="Email"
+            >
+            <input
+              v-model="loginForm.password"
+              type="password"
+              name=""
+              id=" "
+              placeholder="Password"
+            >
+          </div>
 
-                <div class="wrong-msg" v-show="isLoginError">
-                    <span>帳號或密碼錯誤，請重新輸入！</span>
-                </div>
+          <div
+            class="wrong-msg"
+            v-show="isLoginError"
+          >
+            <span>帳號或密碼錯誤，請重新輸入！</span>
+          </div>
 
-                <div class="btn__block">
-                    <button
-                      type="button"
-                      class="btn__login"
-                      @click="login"
-                    >
-                      登入
-                    </button>
-                    <router-link to="/signup" class="btn__signup">註冊帳號</router-link>
-                </div>
-            </div>
+          <div class="btn__block">
+            <button
+              type="button"
+              class="btn__login"
+              @click="login"
+            >
+              登入
+            </button>
+            <router-link
+              to="/signup"
+              class="btn__signup"
+            >註冊帳號</router-link>
+          </div>
         </div>
+      </div>
     </div>
   </div>
 </template>
 
 
 <script>
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent, ref, reactive, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-
 export default defineComponent({
   name: 'login',
-  components: {
-  },
+  components: {},
   setup() {
     const store = useStore();
     const router = useRouter();
@@ -56,8 +79,12 @@ export default defineComponent({
     });
     const isLoginError = ref(false);
 
+    const status = computed(() => {
+      return store.getters['user/verifyResponse'];
+    });
+
     const login = async () => {
-      console.log('loginForm', loginForm);
+      // console.log('loginForm', loginForm);
       // isLoginError.value = true;
 
       // if (isLoginError) {
@@ -65,25 +92,28 @@ export default defineComponent({
       //   return;
       // }
 
-      await store.dispatch('user/login', {...loginForm});
-      router.push({ path: '/home' });
+      await store.dispatch('user/login', { ...loginForm });
     };
+    watch(status.value, (newStatus) => {
+      console.log('newStatus changed', newStatus.status);
+      if (newStatus.status === 'success') {
+        router.push({ path: '/home' });
+      }
+    });
 
     return {
       loginFormRef,
       loginForm,
       isLoginError,
+      status,
       login,
     };
-  }
-
-
-})
+  },
+});
 </script>
 
 
 <style lang="scss" scoped>
-
 .container {
   width: 100%;
   height: 100vh;
@@ -99,7 +129,7 @@ export default defineComponent({
   border: 2px solid #000400;
   width: 870px;
   padding: 70px 22px;
-  background: #EFECE7;
+  background: #efece7;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -140,7 +170,7 @@ export default defineComponent({
       font: Azeret Mono;
 
       &::placeholder {
-        color: #9B9893;
+        color: #9b9893;
       }
     }
   }
@@ -154,7 +184,7 @@ export default defineComponent({
 /* 錯誤訊息 */
 .wrong-msg {
   font: 14px 'Noto Sans TC';
-  color: #F57375;
+  color: #f57375;
   text-align: center;
 }
 
@@ -170,7 +200,7 @@ export default defineComponent({
     margin: 16px 0;
     padding: 16px 0;
     color: #fff;
-    background: #03438D;
+    background: #03438d;
     box-shadow: -2px 2px 0px #000400;
     border: 2px solid #000400;
     border-radius: 8px;
@@ -178,7 +208,7 @@ export default defineComponent({
     transition: 0.1s;
 
     &:hover {
-      background-color: #A8B0B9;
+      background-color: #a8b0b9;
       border-color: #808080;
     }
   }

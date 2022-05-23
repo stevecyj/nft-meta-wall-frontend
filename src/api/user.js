@@ -14,3 +14,11 @@ export function logout() {
     method: "post",
   });
 }
+
+export function register(data) {
+  return request({
+    url: "/users/sign_up",
+    method: "post",
+    data,
+  });
+}

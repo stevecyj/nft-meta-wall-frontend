@@ -1,4 +1,4 @@
-import { login, logout } from "@/api/user";
+import { login, logout, register } from "@/api/user";
 import {
   getLocalStorageToken,
   setLocalStorageToken,
@@ -11,6 +11,7 @@ export const state = {
   id: "627fa403e11fff95efe0cde6", // test
   avatar: "",
   roles: [],
+  verifyResponse: { status: "" },
 };
 
 export const actions = {
@@ -23,10 +24,14 @@ export const actions = {
       // console.log(data.user);
 
       commit("SET_TOKEN", data.user.token);
+      commit("SET_VERIFY_RESPONSE", data);
       setLocalStorageToken(data.user.token);
     } catch (error) {
       console.log(error);
-
+      commit("SET_VERIFY_RESPONSE", error.response.data);
+      commit("SET_TOKEN", "");
+      commit("SET_ROLES", []);
+      removeLocalStorageToken();
       return error;
     }
   },
@@ -40,6 +45,25 @@ export const actions = {
     } catch (error) {
       console.log(error);
 
+      return error;
+    }
+  },
+
+  // user register
+  async register({ commit }, userInfo) {
+    try {
+      const { nickname, email, password } = userInfo;
+      const data = await register({
+        userName: nickname,
+        email: email.trim(),
+        password: password,
+        confirmPassword: password,
+      });
+
+      console.log(data);
+      commit("SET_VERIFY_RESPONSE", data);
+    } catch (error) {
+      console.log(error);
       return error;
     }
   },
@@ -67,6 +91,9 @@ export const mutations = {
   SET_ROLES: (state, roles) => {
     state.roles = roles;
   },
+  SET_VERIFY_RESPONSE: (state, verifyResponse) => {
+    state.verifyResponse.status = verifyResponse.status;
+  },
 };
 
 export const getters = {
@@ -80,6 +107,11 @@ export const getters = {
       avatar,
       roles,
     };
+  },
+  verifyResponse: (state) => {
+    const { verifyResponse } = state;
+
+    return verifyResponse;
   },
 };
 
