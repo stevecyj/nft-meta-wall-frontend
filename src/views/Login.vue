@@ -95,7 +95,7 @@ export default defineComponent({
       await store.dispatch('user/login', { ...loginForm });
     };
     watch(status.value, (newStatus) => {
-      console.log('newStatus changed', newStatus.status);
+      // console.log('newStatus changed', newStatus.status);
       if (newStatus.status === 'success') {
         router.push({ path: '/home' });
       }
