@@ -60,9 +60,9 @@ export const actions = {
         confirmPassword: password,
       });
 
-      console.log(data);
       commit("SET_VERIFY_RESPONSE", data);
     } catch (error) {
+      commit("SET_VERIFY_RESPONSE", error.response.data);
       console.log(error);
       return error;
     }
@@ -75,6 +75,11 @@ export const actions = {
       removeLocalStorageToken();
       resolve();
     });
+  },
+
+  // set default response
+  setDefaultResponse({ commit }) {
+    commit("SET_DEFAULT_RESPONSE", { status: "" });
   },
 };
 
@@ -93,6 +98,9 @@ export const mutations = {
   },
   SET_VERIFY_RESPONSE: (state, verifyResponse) => {
     state.verifyResponse.status = verifyResponse.status;
+  },
+  SET_DEFAULT_RESPONSE: (state) => {
+    state.verifyResponse.status = "";
   },
 };
 
