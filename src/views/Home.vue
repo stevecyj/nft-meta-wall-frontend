@@ -1,6 +1,10 @@
 <template>
   <div>
-    <Searchbar :sort="storePost.sortby" @sort="sort" @search="search" />
+    <Searchbar
+      :sort="storePost.sortby"
+      @sort="sort"
+      @search="search"
+    />
     <Posts :posts="storePost.posts" />
   </div>
 </template>
@@ -13,25 +17,25 @@ import { useStore } from 'vuex';
 import Searchbar from '@/components/Searchbar.vue';
 import Posts from '@/components/Posts.vue';
 
-
 export default defineComponent({
   name: 'Home',
   components: {
     Searchbar,
-    Posts
+    Posts,
   },
   setup(props) {
     const store = useStore();
 
     onMounted(async () => {
       await store.dispatch('post/fetchPublicPosts');
+      // await store.dispatch('user/getProfile', userInfo);
     });
 
     // const storePost = computed(() => {
     //   const data = store.getters['post/publicPosts'];
     //   return data;
     // });
-    const storePost = computed(()=> store.getters['post/publicPosts'])
+    const storePost = computed(() => store.getters['post/publicPosts']);
     console.log('Home:', storePost);
     const sort = async (sortType) => {
       await store.dispatch('post/fetchPublicPosts', { timeSort: sortType });
@@ -54,7 +58,7 @@ export default defineComponent({
       sort,
       search,
     };
-  }
+  },
 });
 </script>
 

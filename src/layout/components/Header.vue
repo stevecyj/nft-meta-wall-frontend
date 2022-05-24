@@ -7,9 +7,17 @@
       <div class="header__avatar__dropdown">
         <div class="header__avatar__dropdown__content">
           <div class="header__avatar">
-            <img src="@/assets/user.png" class="header__avatar__img" alt="avatar">
+            <img
+              :src="userInfo.avatar"
+              v-show="show"
+              class="header__avatar__img"
+              alt="avatar"
+            >
           </div>
-          <p class="header__avatar__dropdown__text" style="margin__left: 8px">Member</p>
+          <p
+            class="header__avatar__dropdown__text"
+            style="margin__left: 8px"
+          >Member</p>
         </div>
         <ul class="header__avatar__dropdown__items">
           <li class="header__avatar__dropdown__item">
@@ -34,21 +42,40 @@ import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'Header',
-  components: {
-  },
+  components: {},
   setup() {
     const store = useStore();
     const router = useRouter();
+
+    const show = ref(false);
 
     const logout = async () => {
       await store.dispatch('user/logout');
       router.push({ path: '/login' });
     };
 
+    const userInfo = computed(() => {
+      return store.getters['user/userInfo'];
+    });
+
+    watch(
+      () => userInfo.value.avatar,
+      (newVal) => {
+        // console.log('newVal:', newVal);
+        show.value = true;
+      }
+    );
+
+    onMounted(async () => {
+      await store.dispatch('user/getProfile');
+    });
+
     return {
+      show,
+      userInfo,
       logout,
     };
-  }
+  },
 });
 </script>
 
