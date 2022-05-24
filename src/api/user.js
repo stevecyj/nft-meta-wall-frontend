@@ -29,6 +29,7 @@ export function getProfile(id) {
     method: "get",
   });
 }
+<<<<<<< HEAD
 
 export function updatePassword(data) {
   return request({
@@ -37,3 +38,5 @@ export function updatePassword(data) {
     data,
   });
 }
+=======
+>>>>>>> 2d57a37 (feat. get profile,show avatar)
