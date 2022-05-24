@@ -1,7 +1,10 @@
 <template>
   <div class="fixed-menu-layout__menu end">
     <div class="card">
-      <router-link class="btn" to="/publish-post/index">張貼動態</router-link>
+      <router-link
+        class="btn"
+        to="/publish-post/index"
+      >張貼動態</router-link>
       <ul style="margin-top:24px;">
         <li>
           <router-link
@@ -11,10 +14,10 @@
             <div class="avatar">
               <img
                 class="avatar__img"
-                src="@/assets/user.png"
+                :src="userInfo.avatar"
               >
             </div>
-            <p class="icon-btn__text">邊緣小杰</p>
+            <p class="icon-btn__text">{{ userInfo.userName }}</p>
           </router-link>
         </li>
         <li style="margin-top:24px;">
@@ -46,15 +49,24 @@
 
 <script>
 import { defineComponent } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'Sidebar',
-  components: {
-  },
+  components: {},
   setup() {
-    return {
-    };
-  }
+    const store = useStore();
+
+    const userInfo = computed(() => {
+      return store.getters['user/userInfo'];
+    });
+
+    onMounted(async () => {
+      await store.dispatch('user/getProfile');
+    });
+
+    return { userInfo };
+  },
 });
 </script>
 
