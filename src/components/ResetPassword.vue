@@ -49,8 +49,8 @@ export default defineComponent({
   components: {},
   setup() {
     const store = useStore();
-    const password = ref('Qwer1234');
-    const confirmPassword = ref('Qwer1234');
+    const password = ref('');
+    const confirmPassword = ref('');
 
     const checkPassWordSame = computed(() => {
       if (password.value === confirmPassword.value) {
@@ -60,9 +60,10 @@ export default defineComponent({
       return false;
     });
 
-    if (!checkPassWordSame) return alert('密碼兩個不同');
 
     const updatePassWord = async () => {
+      // 訊息需再確認
+      if (checkPassWordSame) return false;
       await store.dispatch('user/updatePassword', {
         password1: password.value,
         password2: confirmPassword.value,
