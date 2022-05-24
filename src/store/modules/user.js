@@ -1,4 +1,10 @@
-import { login, logout, register, getProfile, updatePassword } from "@/api/user";
+import {
+  login,
+  logout,
+  register,
+  getProfile,
+  updatePassword,
+} from "@/api/user";
 import {
   getLocalStorageToken,
   setLocalStorageToken,
@@ -58,19 +64,18 @@ export const actions = {
   },
   async updatePassword({ commit, state, dispatch }, data) {
     try {
-      const { password1 , password2} = data
+      const { password1, password2 } = data;
       const res = await updatePassword({
-        password :password1 , 
-        confirmPassword:password2
-      })
-      if(res.status === 'success'){
+        password: password1,
+        confirmPassword: password2,
+      });
+      if (res.status === "success") {
         // 需再確認導向
-        alert('更新成功')
+        alert("更新成功");
       }
-      
     } catch (error) {
       // 密碼相同需確認錯誤回報
-      console.log(error)
+      console.log(error);
       return error;
     }
   },

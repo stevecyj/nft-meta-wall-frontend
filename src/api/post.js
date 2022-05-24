@@ -70,7 +70,7 @@ export function getPostById(postId) {
  */
 export function createPost(data) {
   return request({
-    url: '/post',
+    url: '/posts/addPost',
     method: 'POST',
     data
   })
