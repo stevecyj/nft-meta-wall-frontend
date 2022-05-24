@@ -15,15 +15,15 @@
       <div class="post" style="margin-top: 16px">
         <!-- 貼文擁有者資料 -->
         <div class="avatar">
-          <img v-if="post.author.avatar !== ''" class="avatar__img" :src="post.author.avatar" />
+          <img v-if="post.user?.avatar" class="avatar__img" :src="post.user.avatar" />
           <img v-else class="avatar__img" src="@/assets/user5-1.png" />
           <div style="margin-left: 16px;">
             <router-link
-              :to="`/personal/${post.author._id}`"
+              :to="`/personal/${post.user?._id}`"
               class="link"
-            >{{ post.author.name }}</router-link>
+            >{{ post.user?.userName }}</router-link>
             <p class="avatar__text">
-              {{ timeToLocalTime(post.createAt) }}
+              {{ timeToLocalTime(post.datetime_pub) }}
             </p>
           </div>
         </div>
@@ -37,30 +37,28 @@
           class="post__img"
           :src="post.image"
         />
-        <!-- 沒有按讚 -->
-        <div v-if="post.likes.length <= 0" class="like-btn-empty" style="margin-top: 16px;">
+        <!-- 沒有按讚 | 等 respones data 有再打開-->
+        <!-- <div v-if="post.likes.length <= 0" class="like-btn-empty" style="margin-top: 16px;">
           <button class="like-btn">
             <i class="material-icons-outlined like-btn__icon">
               thumb_up
             </i>
           </button>
           <p class="like-btn__text">成為第一個按讚的朋友</p>
-        </div>
-        <!-- 有人按讚 -->
-        <button v-else class="like-btn primary-text" style="margin-top: 16px;">
+        </div> -->
+        <!-- 有人按讚 | 等 respones data 有再打開 -->
+        <!-- <button v-else class="like-btn primary-text" style="margin-top: 16px;">
           <i class="material-icons-outlined like-btn__icon">
             thumb_up
           </i>
           <p class="like-btn__text">{{ post.likes.length }}</p>
-        </button>
+        </button> -->
         <!-- 留言(本人) -->
         <div class="message-bar" style="margin-top: 16px;">
           <div class="avatar">
             <!-- 本人圖片 -->
-            <img
-              class="avatar__img"
-              src="@/assets/user.png"
-            />
+            <img v-if="post.user?.avatar" class="avatar__img" :src="post.user.avatar" />
+            <img v-else class="avatar__img" src="@/assets/user5-1.png" />
           </div>
           <div class="message-bar__content" style="margin-left: 8px">
             <div class="message-bar__content__input">
@@ -75,8 +73,8 @@
             </button>
           </div>
         </div>
-        <!-- 留言 -->
-        <div  v-for="(comment, commentIndex) in post.comments" :key="commentIndex">
+        <!-- 留言 | 等 respones data 有再打開-->
+        <!-- <div  v-for="(comment, commentIndex) in post.comments" :key="commentIndex">
           <div class="message" style="margin-top: 16px;">
             <div class="avatar">
               <img
@@ -99,14 +97,14 @@
             </div>
             <div class="message__content">{{ comment.comment }}</div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, onMounted } from 'vue';
 import { timeToLocalTime } from '@/utils/time';
 
 export default defineComponent({
@@ -123,6 +121,7 @@ export default defineComponent({
     const posts = computed(() => {
       return props.posts;
     });
+    // console.log('Post.vue',posts);
 
     return {
       posts,

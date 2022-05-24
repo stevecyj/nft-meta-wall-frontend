@@ -44,7 +44,6 @@ service.interceptors.response.use(
   (response) => {
     const res = response.data;
     const status = response.status;
-
     // if the custom code is not 200, it is judged as an error.
     if (status !== 200 && status !== 201) {
       // do something

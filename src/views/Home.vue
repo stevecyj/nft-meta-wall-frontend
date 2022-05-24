@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Searchbar :sort="storePost.timeSort" @sort="sort" @search="search" />
+    <Searchbar :sort="storePost.sortby" @sort="sort" @search="search" />
     <Posts :posts="storePost.posts" />
   </div>
 </template>
@@ -27,12 +27,12 @@ export default defineComponent({
       await store.dispatch('post/fetchPublicPosts');
     });
 
-    const storePost = computed(() => {
-      const data = store.getters['post/publicPosts'];
-
-      return data;
-    });
-
+    // const storePost = computed(() => {
+    //   const data = store.getters['post/publicPosts'];
+    //   return data;
+    // });
+    const storePost = computed(()=> store.getters['post/publicPosts'])
+    console.log('Home:', storePost);
     const sort = async (sortType) => {
       await store.dispatch('post/fetchPublicPosts', { timeSort: sortType });
     };

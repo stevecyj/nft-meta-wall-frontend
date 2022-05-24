@@ -1,17 +1,33 @@
 import request from '@/utils/request';
 
 /** 取得所有貼文
- * @param {*} params ex：{ "keyword": "1", "timeSort": "asc", "limit": 10, "page": 1}
- * @returns 
+ * @data {*} data ex：{ "keyword": "1", "timeSort": "datetime_pub", "limit": 10, "page": 1}
+ * @returns
  *  "status": "success",
- *  "message": "成功取得全部貼文",
- *  "data": { "count": 5, "limit": 10, "page": 1, "posts": [] }
+ *  "payload": {
+    "count": 1,
+    "limit": 10,
+    "page": 1,
+    "posts": [
+      {
+        "user": {
+          "_id": "62741e710b0c853f222d8691",
+          "avatar": "https://randomuser.me/api/portraits/lego/3.jpg",
+          "userName": "DAT"
+        },
+        "postId": "627bd5634b9b3a393e5eb87c",
+        "content": "測試發文",
+        "image": "https://i.picsum.photos/id/817/200/300.jpg?hmac=Egrlh6ZzXMOSu9esbUDMY8PhK3cBCmeqHyWBXm7dnHQ",
+        "datetime_pub": "2022-05-11T15:25:23.537Z"
+      }
+    ]
+  }
  */
-export function getPosts(params) {
+export function getPosts(data) {
   return request({
-    url: '/posts',
-    method: 'GET',
-    params
+    url: '/posts/search',
+    method: 'POST',
+    data
   })
 }
 
