@@ -53,11 +53,12 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref} from 'vue';
+import { defineComponent, reactive, ref, watch, onMounted} from 'vue';
 import { useStore } from 'vuex';
 import { uploadImage } from '@/api/image.js';
 import { createPost } from '@/api/post';
 import router from '../router';
+import { imageTypeRule } from '@/utils/validation';
 
 export default defineComponent({
   name: 'PublishPost',
@@ -67,7 +68,7 @@ export default defineComponent({
     const store = useStore();
     const errorMessageEnum  = {
       noContent: '沒有貼文內容，請填寫',
-      imageSizeError: '圖片檔案過大，僅限 1mb 以下檔案', 
+      imageSizeError: '圖片檔案過大，僅限 1mb 以下檔案',
       imageTypeError: '圖片格式錯誤，僅限 JPG、PNG 圖片',
     };
     let file = reactive({}); // 準備拿 input type="file" 的值
@@ -85,18 +86,20 @@ export default defineComponent({
     let errorContentMessageVised = ref(false);
     let errorContentMessage = ref('');
 
-
     const showFile = (e) => {
       file = e.target.files[0]; // input type="file" 的值
       fs.name = file.name; // input 的圖檔名稱
       fs.thumbnail = window.URL.createObjectURL(file); // input 的圖片縮圖
-      fs.size = Math.floor(file.size * 0.001); // input 的圖片大小
+      fs.size = ~~(file.size * 0.001); // input 的圖片大小
       title.value = fs.name; // 預設 input 的圖檔名稱為圖片上傳時的圖片標題
       preViewImage.value = URL.createObjectURL(file);
 
       if (fs.size > 1000) {
         errorImageMessageVised.value = true;
         errorImageMessage.value = errorMessageEnum.imageSizeError;
+      } else if(!imageTypeRule(fs.name)){
+        errorImageMessageVised.value = true;
+        errorImageMessage.value = errorMessageEnum.imageTypeError;
       } else {
         errorImageMessageVised.value = false;
       }
@@ -111,7 +114,7 @@ export default defineComponent({
         }
 
         const uploadResult = await uploadImage(form);
-
+        console.log(uploadResult);
         return uploadResult?.data?.data?.link;
       } catch (error) {
         console.log(error);
@@ -120,6 +123,7 @@ export default defineComponent({
 
     const submitPost = async () => {
       try {
+        // loading 動畫載入
         store.dispatch('ui/toggleLoading', true);
         errorContentMessageVised.value = false;
 
@@ -136,22 +140,33 @@ export default defineComponent({
         let image = '';
         file?.size && (image = await submitImage());
 
-        const userId = store.getters['user/userInfo']?.id; // test
-        const { status, data } = await store.dispatch('post/addPost', { userId, content: content.value, image });
-
-        if (status === 'success' && data.author) {
-          router.push({ path: `/personal/${data.author}` });
-        } else {
-          router.push({ path: '/home' });
-        }
+        const userId = store.getters['user/userInfo']?.id; // login後要有值，目前使用預設
+        const { status, data } = await store.dispatch('post/addPost', { userId, tags: 'test', type: 'person',content: content.value, image });
+        // 成功轉到動態牆
+        status === 'success' && router.push({ path: '/home' });
       } catch (error) {
         console.log('create post error', error);
-
-        router.push({ path: '/home' });
+        // router.push({ path: '/home' });
       } finally {
         store.dispatch('ui/toggleLoading', false);
       }
     };
+
+    // 檢查 content 值
+    watch(content, (val)=>{
+      if (val === '') {
+        errorContentMessageVised.value = true;
+        errorContentMessage.value = errorMessageEnum.noContent;
+      } else {
+        errorContentMessageVised.value = false;
+      }
+      // console.log(content.value);
+    })
+    // 一開始 show content error
+    onMounted(()=>{
+      errorContentMessageVised.value = true;
+      errorContentMessage.value = errorMessageEnum.noContent;
+    })
 
     return {
       errorImageMessageVised,
