@@ -22,7 +22,7 @@ export const emailRule = (email) => {
  * @return { boolean } boolean - 判斷是否符合規則或不符合規則的訊息
  */
 export const passwordRule = (password) => {
-  return /^((?=\S*?[A-Za-z])(?=\S*?[0-9]).{8,})\S$/.test(password);
+  return /^((?=\S*?[A-Za-z])(?=\S*?[0-9]).{7,})\S$/.test(password);
 };
 
 /** 圖片格式驗證
