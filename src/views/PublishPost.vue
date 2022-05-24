@@ -114,7 +114,7 @@ export default defineComponent({
         }
 
         const uploadResult = await uploadImage(form);
-
+        console.log(uploadResult);
         return uploadResult?.data?.data?.link;
       } catch (error) {
         console.log(error);
@@ -123,6 +123,7 @@ export default defineComponent({
 
     const submitPost = async () => {
       try {
+        // loading 動畫載入
         store.dispatch('ui/toggleLoading', true);
         errorContentMessageVised.value = false;
 
@@ -145,7 +146,8 @@ export default defineComponent({
         if (status === 'success' && data.author) {
           router.push({ path: `/personal/${data.author}` });
         } else {
-          router.push({ path: '/home' });
+          console.log(data)
+          // router.push({ path: '/home' });
         }
       } catch (error) {
         console.log('create post error', error);
