@@ -22,3 +22,10 @@ export function register(data) {
     data,
   });
 }
+
+export function getProfile(id) {
+  return request({
+    url: `/users/profile/${id}`,
+    method: "get",
+  });
+}

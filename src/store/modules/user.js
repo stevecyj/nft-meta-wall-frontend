@@ -1,15 +1,18 @@
-import { login, logout, register } from "@/api/user";
+import { login, logout, register, getProfile } from "@/api/user";
 import {
   getLocalStorageToken,
   setLocalStorageToken,
   removeLocalStorageToken,
+  getLocalStoragePID,
+  setLocalStoragePID,
+  removeLocalStoragePID,
 } from "@/utils/auth";
 
 export const state = {
   token: getLocalStorageToken(),
   name: "Jolyne", //帶 login
   // id: "627fa403e11fff95efe0cde6", // test
-  id: "628897f1c31436e77ba6a8c1",
+  id: getLocalStoragePID(),
   avatar: "",
   roles: [],
   verifyResponse: { status: "" },
@@ -26,9 +29,11 @@ export const actions = {
 
       commit("SET_TOKEN", data.user.token);
       commit("SET_NAME", data.user.name);
+      commit("SET_AVATAR", data.user.avatar);
       commit("SET_ID", data.user.id);
       commit("SET_VERIFY_RESPONSE", data);
       setLocalStorageToken(data.user.token);
+      setLocalStoragePID(data.user.id);
     } catch (error) {
       console.log(error);
       commit("SET_VERIFY_RESPONSE", error.response.data);
@@ -66,6 +71,21 @@ export const actions = {
       commit("SET_VERIFY_RESPONSE", data);
     } catch (error) {
       commit("SET_VERIFY_RESPONSE", error.response.data);
+      console.log(error);
+      return error;
+    }
+  },
+
+  // get user profile
+  async getProfile({ commit, state }) {
+    try {
+      const { status, data } = await getProfile(state.id);
+      // console.log(status, data[0].avatar);
+      // status === 'success' && (commit('SET_PROFILE', data));
+      status === true && commit("SET_AVATAR", data[0].avatar);
+
+      // commit("SET_AVATAR", data[0].avatar);
+    } catch (error) {
       console.log(error);
       return error;
     }

@@ -1,6 +1,6 @@
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
-const TokenKey = 'Token';
+const TokenKey = "Token";
 
 export function getCookiesToken() {
   return Cookies.get(TokenKey);
@@ -24,4 +24,16 @@ export function setLocalStorageToken(token) {
 
 export function removeLocalStorageToken() {
   return localStorage.clear();
+}
+
+export function getLocalStoragePID() {
+  return localStorage.getItem("PID");
+}
+
+export function setLocalStoragePID(pid) {
+  return localStorage.setItem("PID", pid);
+}
+
+export function removeLocalStoragePID() {
+  return localStorage.remove("PID");
 }
