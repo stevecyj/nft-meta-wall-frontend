@@ -8,7 +8,8 @@ import {
 export const state = {
   token: getLocalStorageToken(),
   name: "",
-  id: "627fa403e11fff95efe0cde6", // test
+  // id: "627fa403e11fff95efe0cde6", // test
+  id: "",
   avatar: "",
   roles: [],
   verifyResponse: { status: "" },
@@ -24,6 +25,8 @@ export const actions = {
       // console.log(data.user);
 
       commit("SET_TOKEN", data.user.token);
+      commit("SET_NAME", data.user.name);
+      commit("SET_ID", data.user.id);
       commit("SET_VERIFY_RESPONSE", data);
       setLocalStorageToken(data.user.token);
     } catch (error) {
@@ -89,6 +92,9 @@ export const mutations = {
   },
   SET_NAME: (state, name) => {
     state.name = name;
+  },
+  SET_ID: (state, id) => {
+    state.id = id;
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar;
