@@ -10,7 +10,7 @@ import {
 
 export const state = {
   token: getLocalStorageToken(),
-  name: "",
+  userName: "",
   // id: "627fa403e11fff95efe0cde6", // test
   id: getLocalStoragePID(),
   avatar: "",
@@ -25,7 +25,7 @@ export const actions = {
       const { email, password } = userInfo;
       const data = await login({ email: email.trim(), password: password });
       // const  data = { token: '123' } // 假資料
-      // console.log(data.user);
+      console.log(data.user);
 
       commit("SET_TOKEN", data.user.token);
       commit("SET_NAME", data.user.name);
@@ -83,6 +83,7 @@ export const actions = {
       // console.log(status, data[0].avatar);
       // status === 'success' && (commit('SET_PROFILE', data));
       status === true && commit("SET_AVATAR", data[0].avatar);
+      status === true && commit("SET_NAME", data[0].userName);
 
       // commit("SET_AVATAR", data[0].avatar);
     } catch (error) {
@@ -110,8 +111,8 @@ export const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token;
   },
-  SET_NAME: (state, name) => {
-    state.name = name;
+  SET_NAME: (state, userName) => {
+    state.userName = userName;
   },
   SET_ID: (state, id) => {
     state.id = id;
@@ -133,10 +134,10 @@ export const mutations = {
 export const getters = {
   isLogin: (state) => state.token !== "" || state.token !== null,
   userInfo: (state) => {
-    const { name, id, avatar, roles } = state;
+    const { userName, id, avatar, roles } = state;
 
     return {
-      name,
+      userName,
       id,
       avatar,
       roles,
