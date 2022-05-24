@@ -7,9 +7,9 @@ import {
 
 export const state = {
   token: getLocalStorageToken(),
-  name: "",
+  name: "Jolyne", //帶 login
   // id: "627fa403e11fff95efe0cde6", // test
-  id: "",
+  id: "628897f1c31436e77ba6a8c1",
   avatar: "",
   roles: [],
   verifyResponse: { status: "" },

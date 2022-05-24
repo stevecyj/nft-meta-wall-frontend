@@ -140,15 +140,10 @@ export default defineComponent({
         let image = '';
         file?.size && (image = await submitImage());
 
-        const userId = store.getters['user/userInfo']?.id; // test
-        const { status, data } = await store.dispatch('post/addPost', { userId, content: content.value, image });
-
-        if (status === 'success' && data.author) {
-          router.push({ path: `/personal/${data.author}` });
-        } else {
-          console.log(data)
-          // router.push({ path: '/home' });
-        }
+        const userId = store.getters['user/userInfo']?.id; // login後要有值，目前使用預設
+        const { status, data } = await store.dispatch('post/addPost', { userId, tags: 'test', type: 'person',content: content.value, image });
+        // 成功轉到動態牆
+        status === 'success' && router.push({ path: '/home' });
       } catch (error) {
         console.log('create post error', error);
         // router.push({ path: '/home' });
