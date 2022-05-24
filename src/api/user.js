@@ -29,3 +29,11 @@ export function getProfile(id) {
     method: "get",
   });
 }
+
+export function updatePassword(data) {
+  return request({
+    url: "/users/updatePassword",
+    method: "post",
+    data,
+  });
+}
