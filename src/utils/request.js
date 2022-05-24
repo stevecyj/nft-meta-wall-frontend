@@ -14,11 +14,11 @@ service.interceptors.request.use(
   (config) => {
     // do something before request is sent
 
-    if (store.getters.token) {
+    if (store.getters['user/isLogin']) {
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
-      config.headers["Authorization"] = getLocalStorageToken();
+      config.headers["Authorization"] = 'Bearer '+ getLocalStorageToken();
     }
     return config;
   },
@@ -44,7 +44,6 @@ service.interceptors.response.use(
   (response) => {
     const res = response.data;
     const status = response.status;
-
     // if the custom code is not 200, it is judged as an error.
     if (status !== 200 && status !== 201) {
       // do something

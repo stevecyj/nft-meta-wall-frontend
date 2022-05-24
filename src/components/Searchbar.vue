@@ -8,8 +8,8 @@
         </i>
       </div>
       <ul class="dropdown__items">
-        <li class="dropdown__item" @click="onSort('desc')">最新貼文</li>
-        <li class="dropdown__item" @click="onSort('asc')">最舊貼文</li>
+        <li class="dropdown__item" @click="onSort('datetime_pub')">最新貼文</li>
+        <!-- <li class="dropdown__item" @click="onSort('asc')">最舊貼文</li> -->
       </ul>
     </div>
     <div class="search-input">
@@ -40,14 +40,14 @@ export default defineComponent({
   props: {
     sort: {
       type: String,
-      default: 'asc',
+      default: 'datetime_pub',
     },
   },
   setup(props,  { emit }) {
     const keyword = ref('');
 
     const sortText = computed(() => {
-      return props.sort === 'desc' ? '最新貼文' : '最舊貼文';
+      return props.sort === 'datetime_pub' ? '最新貼文' : '最舊貼文';
     });
 
 

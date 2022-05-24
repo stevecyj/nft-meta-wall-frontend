@@ -12,7 +12,7 @@ import { getLocalStorageToken, setLocalStorageToken, removeLocalStorageToken } f
 
 const _initData = {
   keyword: '',
-  timeSort: 'desc',
+  sortby: 'datetime_pub',
   limit: 10,
   page: 1,
   count: 0,
@@ -23,21 +23,19 @@ export const state = {
   // 公開
   public: {
     keyword: '',
-    timeSort: 'desc',
+    sortby: 'datetime_pub',
     limit: 10,
     page: 1,
-    count: 0,
-    posts: [],
+    userId: ''
   },
   // 私人(個人)
   private: {
     keyword: '',
-    timeSort: 'desc',
+    sortby: 'datetime_pub',
     limit: 10,
     page: 1,
-    count: 0,
-    posts: [],
     userId: '',
+    authorId: ''
   },
 };
 
@@ -51,7 +49,7 @@ export const actions = {
   async fetchPublicPosts({ commit, state, dispatch }, filters = {}) {
     try {
       dispatch('ui/toggleLoading', true, { root: true });
-
+      // 把傳入的 filter 的值船到 state.public
       commit('UPDATE_PUBLIC_STATES', { ...filters });
 
       const { keyword, timeSort, page } = state.public;
@@ -62,12 +60,12 @@ export const actions = {
       state.public.timeSort !== '' && (data['timeSort'] = timeSort);
       typeof state.public.page === 'number' && state.public.page > 0 && (data['page'] = page);
 
-      const { status, data: fetchData } = await getPosts({ ...data });
+      const { status, payload: fetchData } = await getPosts({ ...data });
       const newData = {
         ...fetchData,
         page: Number(fetchData.page),
       }
-
+      // console.log('fetchPublicPosts:',newData);
       status === 'success' && (commit('UPDATE_PUBLIC_STATES', { ...newData }));
     } catch (error) {
       console.log(error);
@@ -140,12 +138,11 @@ export const mutations = {
 
 export const getters = {
   publicPosts: (state) => {
-    const { keyword, timeSort, limit, page, count, posts } = state.public;
+    const { keyword, sortby, limit, page, count, posts } = state.public;
     const hasNextPage = page < count / limit;
-
     return {
       keyword,
-      timeSort,
+      sortby,
       page,
       posts,
       hasNextPage,
