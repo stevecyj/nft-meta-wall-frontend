@@ -82,6 +82,7 @@ import { defineComponent, ref, reactive, watch, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { nicknameRule, emailRule, passwordRule } from '@/utils/validation';
+import { alertSuccess, alertError } from '@/utils/swal';
 
 export default defineComponent({
   name: 'PublishPost',
@@ -129,6 +130,7 @@ export default defineComponent({
 
     watch(status.value, (newStatus) => {
       if (newStatus.status === 'success') {
+        alertSuccess('註冊成功！');
         router.push({ path: '/login' });
         store.dispatch('user/setDefaultResponse');
       }
