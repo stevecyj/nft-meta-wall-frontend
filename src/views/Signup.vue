@@ -83,7 +83,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { nicknameRule, emailRule, passwordRule } from '@/utils/validation';
 // import { alertSuccess, alertError } from '@/utils/swal';
-import Swal from 'sweetalert2/dist/sweetalert2';
+import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 
 export default defineComponent({
