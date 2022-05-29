@@ -94,7 +94,7 @@ export const actions = {
 
       if (res.status) {
         // 需再確認導向
-        alert("更新成功");
+        return res.data
       }
     } catch (error) {
       console.log(error);

@@ -84,6 +84,7 @@
 <script>
 import { defineComponent } from 'vue';
 import { useStore } from 'vuex';
+import { alertSuccess, alertError } from '@/utils/swal';
 
 export default defineComponent({
   name: 'EditUserInfo',
@@ -96,30 +97,38 @@ export default defineComponent({
     const avatar = ref('')
     const gender = ref('')
     
-    // 須解 vuex 決非同步的問題
     const userInfo = computed( () => {
       return store.getters['user/userInfo'];
     });
-    
-    userName.value = userInfo.value ? userInfo.value.userName : 'test000'
-    avatar.value =  userInfo.value ? userInfo.value.avatar : 'https://randomuser.me/api/portraits/lego/3.jpg'
-    gender.value =  userInfo.value ? userInfo.value.gender : 'male'
+
+    watch(
+      () => userInfo.value,
+      ( newValue, oldValue ) => {
+        userName.value = newValue.userName 
+        avatar.value =  newValue.avatar
+        gender.value =  newValue.gender
+      },
+      { deep: true }
+    );
     
 
 
     const updateProfile = async () =>{
       if( !userName.value || !avatar.value ){
+        const msg = !userName.value ? '使用者名稱不得為空' : '使用者圖片不得為空'
+        alertError(msg)
         return false
       }
       
       try {
-        await store.dispatch('user/updateProfile', {
+        const res = await store.dispatch('user/updateProfile', {
           userName: userName.value, 
           avatar : avatar.value,
           gender : gender.value
         });
+        alertSuccess(res)
       } catch (error) {
-        console.log(error);
+        alertError(msg.message)
       }
 
     }

@@ -14,10 +14,10 @@
     </ul>
 
     <transition name="fall">
-      <EditUserInfo v-if="tagKey === 'userInfo'" />
+      <EditUserInfo v-show="tagKey === 'userInfo'" />
     </transition>
     <transition name="fall">
-      <ResetPassword v-if="tagKey === 'password'" />
+      <ResetPassword v-show="tagKey === 'password'" />
     </transition>
   </div>
 </template>
