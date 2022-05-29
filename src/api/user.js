@@ -37,3 +37,11 @@ export function updatePassword(data) {
     data,
   });
 }
+
+export function updateProfile(data){
+  return request({
+    url: "/users/updateProfile",
+    method: "patch",
+    data,
+  });
+}
