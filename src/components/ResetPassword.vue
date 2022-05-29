@@ -32,6 +32,7 @@
       <button
         class="btn"
         :class="{ disabled : !checkPassWordSame }"
+        :disabled="!checkPassWordSame"
         @click="updatePassWord"
         style="margin-top: 32px;"
       >重設密碼</button>
@@ -60,10 +61,11 @@ export default defineComponent({
       return false;
     });
 
-
     const updatePassWord = async () => {
       // 訊息需再確認
-      if (checkPassWordSame) return false;
+      if (!checkPassWordSame) {
+        alert('密碼需至少 8 碼以上，並英文、數字混合');
+      }
       await store.dispatch('user/updatePassword', {
         password1: password.value,
         password2: confirmPassword.value,
