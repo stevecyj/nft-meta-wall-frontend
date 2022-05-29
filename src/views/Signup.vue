@@ -82,7 +82,9 @@ import { defineComponent, ref, reactive, watch, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { nicknameRule, emailRule, passwordRule } from '@/utils/validation';
-import { alertSuccess, alertError } from '@/utils/swal';
+// import { alertSuccess, alertError } from '@/utils/swal';
+import Swal from 'sweetalert2/dist/sweetalert2';
+import 'sweetalert2/src/sweetalert2.scss';
 
 export default defineComponent({
   name: 'PublishPost',
@@ -103,6 +105,18 @@ export default defineComponent({
       email: '',
       password: '',
     });
+
+    const alertSuccess = (msg) => {
+      const swalSuccess = Swal.mixin({
+        color: '#198754',
+        confirmButtonColor: '#dc3545',
+      });
+      swalSuccess.fire({
+        icon: 'success',
+        title: msg,
+        // text: 'Something went wrong!',
+      });
+    };
 
     const status = computed(() => {
       return store.getters['user/verifyResponse'];
