@@ -4,6 +4,7 @@ import {
   register,
   getProfile,
   updatePassword,
+  updateProfile,
 } from "@/api/user";
 import {
   getLocalStorageToken,
@@ -64,6 +65,7 @@ export const actions = {
   },
   async updatePassword({ commit, state, dispatch }, data) {
     try {
+      dispatch('ui/toggleLoading', true, { root: true });
       const { password1, password2 } = data;
       const res = await updatePassword({
         password: password1,
@@ -77,9 +79,30 @@ export const actions = {
       // 密碼相同需確認錯誤回報
       console.log(error);
       return error;
+    } finally {
+      dispatch('ui/toggleLoading', false, { root: true });
     }
   },
+  async updateProfile({dispatch}, userProfile){
+    try {
+      dispatch('ui/toggleLoading', true, { root: true });
 
+      const { userName, avatar, gender } = userProfile
+      const res = await updateProfile({
+        userName, avatar, gender
+      })
+
+      if (res.status) {
+        // 需再確認導向
+        return res.data
+      }
+    } catch (error) {
+      console.log(error);
+      return error
+    } finally {
+      dispatch('ui/toggleLoading', false, { root: true });
+    }
+  },
   // user register
   async register({ commit }, userInfo) {
     try {
