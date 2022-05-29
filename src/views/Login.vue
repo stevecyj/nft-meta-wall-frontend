@@ -50,7 +50,7 @@
               登入
             </button>
             <router-link
-              to="/signup"
+              :to="{path: '/signup'}"
               class="btn__signup"
             >註冊帳號</router-link>
           </div>
