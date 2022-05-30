@@ -123,7 +123,9 @@ export default defineComponent({
         avatar.value = newValue.avatar;
         gender.value = newValue.gender;
       },
-      { deep: true }
+      { deep: true ,
+        immediate :true
+      }
     );
 
     const updateProfile = async () => {
@@ -140,6 +142,7 @@ export default defineComponent({
           gender: gender.value,
         });
         alertSuccess(res);
+        await store.dispatch('user/getProfile')
       } catch (error) {
         alertError(msg.message);
       }
