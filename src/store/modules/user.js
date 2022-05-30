@@ -130,6 +130,7 @@ export const actions = {
       // status === 'success' && (commit('SET_PROFILE', data));
       status === true && commit("SET_AVATAR", data[0].avatar);
       status === true && commit("SET_NAME", data[0].userName);
+      status === true && commit("SET_GENDER", data[0].gender ? data[0].gender : 'notAccess');
 
       // commit("SET_AVATAR", data[0].avatar);
     } catch (error) {
@@ -166,6 +167,9 @@ export const mutations = {
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar;
   },
+  SET_GENDER: (state, gender) => {
+    state.gender = gender;
+  },
   SET_ROLES: (state, roles) => {
     state.roles = roles;
   },
@@ -180,13 +184,14 @@ export const mutations = {
 export const getters = {
   isLogin: (state) => state.token !== "" || state.token !== null,
   userInfo: (state) => {
-    const { userName, id, avatar, roles } = state;
+    const { userName, id, avatar, roles ,gender } = state;
 
     return {
       userName,
       id,
       avatar,
       roles,
+      gender
     };
   },
   verifyResponse: (state) => {
