@@ -121,7 +121,6 @@ export default defineComponent({
     const posts = computed(() => {
       return props.posts;
     });
-    // console.log('Post.vue',posts);
 
     return {
       posts,

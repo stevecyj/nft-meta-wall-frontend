@@ -26,7 +26,8 @@ export const state = {
     sortby: 'datetime_pub',
     limit: 10,
     page: 1,
-    userId: ''
+    userId: '',
+    posts: []
   },
   // 私人(個人)
   private: {
