@@ -5,6 +5,7 @@ import {
   getProfile,
   updatePassword,
   updateProfile,
+  getFollowers,
 } from "@/api/user";
 import {
   getLocalStorageToken,
@@ -103,6 +104,18 @@ export const actions = {
       dispatch('ui/toggleLoading', false, { root: true });
     }
   },
+  async getFollowers({dispatch}, userId){
+    try {
+      dispatch('ui/toggleLoading', true, { root: true });
+      const followers = await getFollowers(userId)
+      return followers
+    } catch (error) {
+      return error
+    } finally {
+      dispatch('ui/toggleLoading', false, { root: true });
+    }
+  },
+  
   // user register
   async register({ commit }, userInfo) {
     try {

@@ -45,3 +45,11 @@ export function updateProfile(data){
     data,
   });
 }
+
+export function getFollowers(userId){
+  return request({
+    url: "/users/getFollowers",
+    method: "post",
+    userId,
+  });
+}

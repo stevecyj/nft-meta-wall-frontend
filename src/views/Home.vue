@@ -28,7 +28,8 @@ export default defineComponent({
 
     onMounted(async () => {
       await store.dispatch('post/fetchPublicPosts');
-      // await store.dispatch('user/getProfile', userInfo);
+      // 目前其他元件取用會有非同步取用問題 直接先取用
+      await store.dispatch('user/getProfile');
     });
 
     // const storePost = computed(() => {

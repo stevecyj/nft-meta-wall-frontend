@@ -10,6 +10,7 @@
 <script>
 import { defineComponent, reactive } from 'vue';
 import Concerned from '@/components/Concerned.vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'Follower',
@@ -17,6 +18,13 @@ export default defineComponent({
     Concerned,
   },
   setup() {
+    const store = useStore();
+    const userInfo = computed(  () => {
+      return store.getters['user/userInfo']
+    })
+
+    const userId = userInfo.value.id
+
     const followers = reactive([
       {
         userName: '希琳',
@@ -31,6 +39,10 @@ export default defineComponent({
         createAt: '2022-05-10T17:22:10.221Z',
       }
     ]);
+
+    onMounted(async () => {
+      followers.value = await store.dispatch('user/getFollowers', { userId });
+    });
 
     return {
       followers,
