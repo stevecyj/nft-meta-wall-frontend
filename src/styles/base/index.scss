@@ -1,14 +1,26 @@
-@import '@/styles/mixin/index.scss';
-@import '@/styles/grid';
+@import "@/styles/mixin/index.scss";
+@import "@/styles/grid";
+
+// body {
+//   width: 100%;
+//   z-index: 1;
+//   background-color: ($BackGroundColor, 0.6);
+//   background-image: linear-gradient($FrameLine 0.3px, transparent 0.3px),
+//     linear-gradient(to right, $FrameLine 0.3px, $BackGroundColor 0.3px);
+//   background-size: 44px 44px;
+//   line-height: 1.5;
+// }
 
 body {
-  width: 100%;
-  z-index: 1;
-  background-color: ($BackGroundColor, 0.6);
-  background-image: linear-gradient($FrameLine 0.3px, transparent 0.3px),
-    linear-gradient(to right, $FrameLine 0.3px, $BackGroundColor 0.3px);
-  background-size: 44px 44px;
-  line-height: 1.5;
+  position: relative;
+  background: -webkit-linear-gradient(
+      top,
+      transparent 68px,
+      rgba($dark, 0.16) 70px
+    ),
+    -webkit-linear-gradient(left, transparent 68px, rgba($dark, 0.16) 70px);
+  background-size: 4.375rem 4.375rem;
+  background-color: $secondary;
 }
 
 a {
@@ -55,11 +67,11 @@ a {
 }
 
 .border-bottom {
-  @include border('down');
+  @include border("down");
 }
 
 .border-bottom-white {
-  @include border('down', #fff);
+  @include border("down", #fff);
 }
 
 .pos-sticky {
