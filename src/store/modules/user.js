@@ -65,7 +65,7 @@ export const actions = {
   },
   async updatePassword({ commit, state, dispatch }, data) {
     try {
-      dispatch('ui/toggleLoading', true, { root: true });
+      dispatch("ui/toggleLoading", true, { root: true });
       const { password1, password2 } = data;
       const res = await updatePassword({
         password: password1,
@@ -80,27 +80,29 @@ export const actions = {
       console.log(error);
       return error;
     } finally {
-      dispatch('ui/toggleLoading', false, { root: true });
+      dispatch("ui/toggleLoading", false, { root: true });
     }
   },
-  async updateProfile({dispatch}, userProfile){
+  async updateProfile({ dispatch }, userProfile) {
     try {
-      dispatch('ui/toggleLoading', true, { root: true });
+      dispatch("ui/toggleLoading", true, { root: true });
 
-      const { userName, avatar, gender } = userProfile
+      const { userName, avatar, gender } = userProfile;
       const res = await updateProfile({
-        userName, avatar, gender
-      })
+        userName,
+        avatar,
+        gender,
+      });
 
       if (res.status) {
         // 需再確認導向
-        return res.data
+        return res.data;
       }
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     } finally {
-      dispatch('ui/toggleLoading', false, { root: true });
+      dispatch("ui/toggleLoading", false, { root: true });
     }
   },
   // user register
@@ -125,12 +127,13 @@ export const actions = {
   // get user profile
   async getProfile({ commit, state }) {
     try {
-      const { status, data } = await getProfile(state.id);
+      const { status, data } = await getProfile();
       // console.log(status, data[0].avatar);
       // status === 'success' && (commit('SET_PROFILE', data));
-      status === true && commit("SET_AVATAR", data[0].avatar);
-      status === true && commit("SET_NAME", data[0].userName);
-      status === true && commit("SET_GENDER", data[0].gender ? data[0].gender : 'notAccess');
+      status === true && commit("SET_AVATAR", data.avatar);
+      status === true && commit("SET_NAME", data.userName);
+      status === true &&
+        commit("SET_GENDER", data.gender ? data.gender : "notAccess");
 
       // commit("SET_AVATAR", data[0].avatar);
     } catch (error) {
@@ -184,14 +187,14 @@ export const mutations = {
 export const getters = {
   isLogin: (state) => state.token !== "" || state.token !== null,
   userInfo: (state) => {
-    const { userName, id, avatar, roles ,gender } = state;
+    const { userName, id, avatar, roles, gender } = state;
 
     return {
       userName,
       id,
       avatar,
       roles,
-      gender
+      gender,
     };
   },
   verifyResponse: (state) => {
