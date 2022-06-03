@@ -61,9 +61,9 @@ export default defineComponent({
       return store.getters['user/userInfo'];
     });
 
-    onMounted(async () => {
-      await store.dispatch('user/getProfile');
-    });
+    // onMounted(async () => {
+    //   await store.dispatch('user/getProfile');
+    // });
 
     return { userInfo };
   },
