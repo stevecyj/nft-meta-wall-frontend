@@ -16,11 +16,11 @@
           <p
             class="header__avatar__dropdown__text"
             style="margin__left: 8px"
-          >Member</p>
+          >Member {{userInfo.userName}}</p>
         </div>
         <ul class="header__avatar__dropdown__items">
           <li class="header__avatar__dropdown__item">
-            <router-link to="/personal/1234">我的貼文牆</router-link>
+            <router-link :to="`/personal/${userInfo.id}`">我的貼文牆</router-link>
           </li>
           <li class="header__avatar__dropdown__item">
             <router-link
@@ -53,6 +53,7 @@ export default defineComponent({
 
     const onRefresh = inject('reload');
 
+    const show = ref(false);
     const logout = async () => {
       await store.dispatch('user/logout');
       router.push({ path: '/login' });
@@ -67,7 +68,7 @@ export default defineComponent({
     });
 
     onMounted(async () => {
-      await store.dispatch('user/getProfile');
+      await store.dispatch('user/getProfile',{id:userInfo._value.id});
     });
 
     return {

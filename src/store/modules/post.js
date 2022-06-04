@@ -8,6 +8,7 @@ import {
   updatePost,
   updatePostLikes,
   deletePost,
+  getLikedPost
 } from '@/api/post';
 import { getLocalStoragePID } from '@/utils/auth';
 
@@ -42,6 +43,7 @@ export const state = {
     userId: '',
     authorId: ''
   },
+  likedPosts: []
 };
 
 export const actions = {
@@ -82,15 +84,19 @@ export const actions = {
 
       commit('UPDATE_PRIVATE_STATES', { ...filters });
 
-      const { keyword, timeSort, page } = state.private;
+      const { keyword, timeSort, page ,authorId } = state.private;
       const data = {};
-
       data['limit'] = state.private.limit;
       state.private.keyword !== '' && (data['keyword'] = keyword);
       state.private.timeSort !== '' && (data['timeSort'] = timeSort);
+      state.private.authorId !== '' && (data['authorId'] = authorId)
+      
       typeof state.private.page === 'number' && state.private.page > 0 && (data['page'] = page);
+      console.log('data',data)
+      const { status, payload: fetchData } = await getPosts({ ...data });
 
-      const { status, data: fetchData } = await getUserPosts(state.private.userId, { ...data });
+      // const { status, data: fetchData } = await getUserPosts(state.private.userId, { ...data });
+      console.log('fetchData',fetchData)
       const newData = {
         ...fetchData,
         page: Number(fetchData.page),
@@ -150,7 +156,27 @@ export const actions = {
       const { commentId } = data
       const result = await delPostComment(commentId);
       return result.status;
-    }catch (error){
+    }catch (error){console.log(error);
+      return error;
+    } finally {
+      dispatch('ui/toggleLoading', false, { root: true });
+    }
+  },
+  async getLikedPosts({ commit, state, dispatch }) {
+    try {
+      dispatch('ui/toggleLoading', true, { root: true });
+
+      const test = {
+        q : 1,
+        s : 10
+      };
+      const { status, data } = await getLikedPost(test);
+ 
+      commit('LIKEDPOSTS', data.posts);
+
+
+    } catch (error) {
+      console.log(error);
       return error;
     } finally {
       dispatch('ui/toggleLoading', false, { root: true });
@@ -169,6 +195,9 @@ export const mutations = {
       state.private[key] = keyValues[key];
     });
   },
+  LIKEDPOSTS : (state , posts) => { 
+    state.likedPosts = posts
+  }
 };
 
 export const getters = {
@@ -195,7 +224,8 @@ export const getters = {
       hasNextPage,
       userId,
     };
-  }
+  },
+  likedPosts : (state) => state.likedPosts
 };
 
 export default {
