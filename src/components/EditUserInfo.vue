@@ -120,6 +120,7 @@
 <script>
 import { defineComponent } from 'vue';
 import { useStore } from 'vuex';
+import { uploadImage } from '@/api/image.js';
 import { alertSuccess, alertError } from '@/utils/swal';
 import { imageTypeRule } from '@/utils/validation';
 
@@ -152,7 +153,7 @@ export default defineComponent({
     // let errorContentMessage = ref('');
 
     const showFile = (e) => {
-      console.log(e);
+      // console.log(e);
       file = e.target.files[0]; // input type="file" 的值
       fs.name = file.name; // input 的圖檔名稱
       fs.thumbnail = window.URL.createObjectURL(file); // input 的圖片縮圖
@@ -168,6 +169,21 @@ export default defineComponent({
         errorImageMessage.value = errorMessageEnum.imageTypeError;
       } else {
         errorImageMessageVised.value = false;
+      }
+    };
+
+    let submitImage = async () => {
+      try {
+        const form = {
+          file,
+          title: title.value,
+        };
+
+        const uploadResult = await uploadImage(form);
+        console.log(uploadResult);
+        return uploadResult?.data?.data?.link;
+      } catch (error) {
+        console.log(error);
       }
     };
 
@@ -193,9 +209,13 @@ export default defineComponent({
       }
 
       try {
+        let image = '';
+        file?.size && (image = await submitImage());
+        console.log(image);
+
         const res = await store.dispatch('user/updateProfile', {
           userName: userName.value,
-          avatar: avatar.value,
+          avatar: image,
           gender: gender.value,
         });
         alertSuccess(res);
