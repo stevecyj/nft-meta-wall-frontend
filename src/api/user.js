@@ -40,7 +40,7 @@ export function updatePassword(data) {
 
 export function updateProfile(data) {
   return request({
-    url: "/users/updateProfile",
+    url: "/users/profile",
     method: "patch",
     data,
   });
