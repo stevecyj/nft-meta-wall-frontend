@@ -1,12 +1,28 @@
 <template>
-  <router-view />
+  <router-view v-if="isRouterAlive" />
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, ref, nextTick, provide } from 'vue';
 export default defineComponent({
   name: 'App',
   components: {},
+  setup(props) {
+    // 局部组件刷新
+    const isRouterAlive = ref(true);
+    const reload = () => {
+      isRouterAlive.value = false;
+      nextTick(() => {
+        isRouterAlive.value = true;
+      });
+    };
+
+    provide('reload', reload);
+
+    return {
+      isRouterAlive,
+    };
+  },
 });
 </script>
 

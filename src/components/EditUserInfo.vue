@@ -7,7 +7,6 @@
             class="avatar__img"
             :src="userInfo.avatar"
             alt="avatar"
-            v-show="show"
           />
         </div>
         <button
@@ -113,7 +112,7 @@ export default defineComponent({
     const userName = ref('');
     const avatar = ref('');
     const gender = ref('');
-    const show = ref(false);
+    // const show = ref(false);
 
     const userInfo = computed(() => {
       return store.getters['user/userInfo'];
@@ -127,14 +126,6 @@ export default defineComponent({
         gender.value = newValue.gender;
       },
       { deep: true, immediate: true }
-    );
-
-    watch(
-      () => userInfo.value.avatar,
-      (newVal) => {
-        // console.log('newVal:', newVal);
-        show.value = true;
-      }
     );
 
     const updateProfile = async () => {
@@ -162,7 +153,6 @@ export default defineComponent({
       avatar,
       gender,
       userInfo,
-      show,
       updateProfile,
     };
   },
