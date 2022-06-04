@@ -4,11 +4,12 @@ import {
   getPostById,
   createPost,
   addPostComment,
+  delPostComment,
   updatePost,
   updatePostLikes,
   deletePost,
 } from '@/api/post';
-import { getLocalStorageToken, setLocalStorageToken, removeLocalStorageToken } from '@/utils/auth';
+import { getLocalStoragePID } from '@/utils/auth';
 
 const _initData = {
   keyword: '',
@@ -16,6 +17,8 @@ const _initData = {
   limit: 10,
   page: 1,
   count: 0,
+  userId: getLocalStoragePID() || '',
+  authorId: '',
   posts: [],
 };
 
@@ -26,7 +29,8 @@ export const state = {
     sortby: 'datetime_pub',
     limit: 10,
     page: 1,
-    userId: '',
+    userId: getLocalStoragePID(),
+    authorId: '',
     posts: []
   },
   // 私人(個人)
@@ -53,20 +57,14 @@ export const actions = {
       // 把傳入的 filter 的值船到 state.public
       commit('UPDATE_PUBLIC_STATES', { ...filters });
 
-      const { keyword, timeSort, page } = state.public;
-      const data = {};
-
-      data['limit'] = state.public.limit;
-      state.public.keyword !== '' && (data['keyword'] = keyword);
-      state.public.timeSort !== '' && (data['timeSort'] = timeSort);
-      typeof state.public.page === 'number' && state.public.page > 0 && (data['page'] = page);
-
+      const { keyword, sortby, limit, page, userId, authorId } = state.public;
+      const data = { keyword, sortby, limit, page, userId, authorId };
       const { status, payload: fetchData } = await getPosts({ ...data });
       const newData = {
         ...fetchData,
         page: Number(fetchData.page),
       }
-      // console.log('fetchPublicPosts:',newData);
+      // console.log(newData)
       status === 'success' && (commit('UPDATE_PUBLIC_STATES', { ...newData }));
     } catch (error) {
       console.log(error);
@@ -122,6 +120,42 @@ export const actions = {
       dispatch('ui/toggleLoading', false, { root: true });
     }
   },
+  async addComment({ commit, dispatch}, data = {}){
+    try {
+      dispatch('ui/toggleLoading', true, { root: true });
+      const { postId, commentData } = data;
+      const result = await addPostComment(postId, { comment: commentData});
+      console.log('result', result);
+      return result;
+    }catch (error){
+      return error;
+    } finally {
+      dispatch('ui/toggleLoading', false, { root: true });
+    }
+  },
+  async updateLikes({ commit, dispatch}, data = {}){
+    try {
+      console.log(data)
+      const result = await updatePostLikes(data);
+      return result;
+    }catch (error){
+      return error;
+    } finally {
+      dispatch('ui/toggleLoading', false, { root: true });
+    }
+  },
+  async delComment({ commit, dispatch}, data = {}){
+    try {
+      dispatch('ui/toggleLoading', true, { root: true });
+      const { commentId } = data
+      const result = await delPostComment(commentId);
+      return result.status;
+    }catch (error){
+      return error;
+    } finally {
+      dispatch('ui/toggleLoading', false, { root: true });
+    }
+  }
 };
 
 export const mutations = {

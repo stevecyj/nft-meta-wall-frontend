@@ -86,9 +86,22 @@ export function createPost(data) {
  */
 export function addPostComment(postId, data) {
   return request({
-    url: `/post/${postId}/comments`,
+    url: `/posts/comment/${postId}`,
     method: 'POST',
     data
+  })
+}
+/** 新增指定貼文內留言
+ * @param {*} commentId 留言 ID
+ * @returns
+ *  "status": "success",
+ *  "message": "success",
+ *  "data": "已刪除此留言"
+ */
+export function delPostComment(commentId) {
+  return request({
+    url: `/posts/comment/${commentId}`,
+    method: 'DELETE'
   })
 }
 
@@ -116,9 +129,9 @@ export function updatePost(postId, data) {
  *  "message": "成功修改指定貼文按讚數",
  *  "data": { ...貼文資料 }
  */
-export function updatePostLikes(postId, data) {
+export function updatePostLikes(data) {
   return request({
-    url: `/post/${postId}/likes`,
+    url: `/posts/like`,
     method: 'PATCH',
     data
   })
