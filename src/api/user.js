@@ -23,9 +23,9 @@ export function register(data) {
   });
 }
 
-export function getProfile() {
+export function getProfile(id) {
   return request({
-    url: `/users/profile`,
+    url: `/users/profile/${id}`,
     method: "get",
   });
 }

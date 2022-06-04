@@ -127,7 +127,7 @@ export const actions = {
   // get user profile
   async getProfile({ commit, state }) {
     try {
-      const { status, data } = await getProfile();
+      const { status, data } = await getProfile(state.id);
       // console.log(status, data[0].avatar);
       // status === 'success' && (commit('SET_PROFILE', data));
       status === true && commit("SET_AVATAR", data.avatar);
