@@ -34,7 +34,7 @@ export default defineComponent({
     });
 
     const sort = async (sortType) => {
-      await store.dispatch('post/fetchPublicPosts', { timeSort: sortType });
+      await store.dispatch('post/fetchPublicPosts', { sortby: sortType });
     };
 
     const search = async (text) => {
@@ -71,6 +71,7 @@ export default defineComponent({
 
 
     onBeforeRouteUpdate((to, from) => {
+      store.dispatch('post/initPublicData');
       store.dispatch('post/fetchPublicPosts');
     });
 
