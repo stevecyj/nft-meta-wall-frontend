@@ -9,7 +9,7 @@
       </div>
       <ul class="dropdown__items">
         <li class="dropdown__item" @click="onSort('datetime_pub')">最新貼文</li>
-        <!-- <li class="dropdown__item" @click="onSort('asc')">最舊貼文</li> -->
+        <li class="dropdown__item" @click="onSort('datetime_pub_asc')">最舊貼文</li>
       </ul>
     </div>
     <div class="search-input">

@@ -51,7 +51,7 @@ export function getFollowers(data) {
   return request({
     url: "/users/followers",
     method: "get",
-    data,
+    data
   });
 }
 
@@ -59,6 +59,6 @@ export function updateFollower(data) {
   return request({
     url: "/users/follow",
     method: "post",
-    data,
+    data
   });
 }

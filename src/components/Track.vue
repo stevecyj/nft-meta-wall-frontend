@@ -4,14 +4,16 @@
     <div class="track-content">
       <img
         class="track-content__img"
-        src="@/assets/user5-4.png"
+        :src="uProfile.avatar"
         alt="追蹤這照片"
       />
       <div style="margin-left: 16px;">
-        <p class="track-content__name">{{uProfile.userName}}</p>
-        <p class="track-content__text" v-if="uProfile.follow">{{ thousandSeparator(uProfile.follow.length) + ' 人追蹤'}}</p>
+        <p class="track-content__name">{{ uProfile.userName }}</p>
+        <p class="track-content__text" v-if="uProfile.follow">{{ thousandSeparator(uProfile.beFollowed.length) + ' 人追蹤'}}</p>
       </div>
-      <button class="btn secondary small" @click="getTrick(userInfo.id,$route.params.id)">追蹤</button>
+      <button class="btn secondary small" :class="{ tracked: isTrack }" @click="updateFollow(userInfo.id, uProfile._id)">
+        {{ trackText }}
+      </button>
     </div>
   </div>
 </template>
@@ -19,7 +21,7 @@
 <script>
 import { computed, defineComponent , onMounted } from 'vue';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { thousandSeparator } from '@/utils/unit';
 
 export default defineComponent({
@@ -28,33 +30,51 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const router = useRouter();
+    const route = useRoute();
+    const trackText = ref('');
+    const isTrack = ref(false);
     const uProfile = computed( () =>{
-      const data = store.getters['user/otherUserInfo']
-      return data
+      return store.getters['user/otherUserInfo']
     })
     const userInfo = computed(() => {
       return store.getters['user/userInfo'];
     });
-    onMounted(async () => {
-      const userId = router.currentRoute._value.params.id
-      const test2 = await store.dispatch('user/getOtherUser',{'id':userId});
-      console.log('test2',test2)
+
+    const userId = computed(() => {
+      return route.params.id
     });
 
-    const getTrick = (userId,followId)=>{
-      console.log(userId,followId)
-      store.dispatch('user/updateFollower',{'userid':userId,'followId':followId})
+    const checkTrackStatus = () => {
+      isTrack.value = uProfile.value.beFollowed.some((item)=>{
+        return item.id === userInfo.value.id
+      })
+      trackText.value = isTrack.value ? '取消追蹤' : '追蹤';
     }
+
+    onMounted(async () => {
+      await store.dispatch('user/getOtherUser',{ id: userId.value });
+      checkTrackStatus();
+    });
+
+    const updateFollow = async ( userId, followId )=>{
+      await store.dispatch('user/updateFollower',{ userId, followId })
+      checkTrackStatus();
+    }
+
     return {
       userInfo,
       uProfile,
       thousandSeparator,
-      getTrick
+      updateFollow,
+      trackText,
+      isTrack
     };
   }
 });
 </script>
 
 <style lang="scss" scoped>
+.tracked{
+  background-color: #EFECE7;
+}
 </style>
