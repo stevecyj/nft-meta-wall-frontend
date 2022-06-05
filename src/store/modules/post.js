@@ -66,7 +66,6 @@ export const actions = {
         ...fetchData,
         page: Number(fetchData.page),
       }
-      // console.log(newData)
       status === 'success' && (commit('UPDATE_PUBLIC_STATES', { ...newData }));
     } catch (error) {
       console.log(error);
@@ -90,13 +89,11 @@ export const actions = {
       state.private.keyword !== '' && (data['keyword'] = keyword);
       state.private.timeSort !== '' && (data['timeSort'] = timeSort);
       state.private.authorId !== '' && (data['authorId'] = authorId)
-      
+
       typeof state.private.page === 'number' && state.private.page > 0 && (data['page'] = page);
       console.log('data',data)
       const { status, payload: fetchData } = await getPosts({ ...data });
 
-      // const { status, data: fetchData } = await getUserPosts(state.private.userId, { ...data });
-      console.log('fetchData',fetchData)
       const newData = {
         ...fetchData,
         page: Number(fetchData.page),
@@ -131,7 +128,6 @@ export const actions = {
       dispatch('ui/toggleLoading', true, { root: true });
       const { postId, commentData } = data;
       const result = await addPostComment(postId, { comment: commentData});
-      console.log('result', result);
       return result;
     }catch (error){
       return error;
@@ -141,7 +137,6 @@ export const actions = {
   },
   async updateLikes({ commit, dispatch}, data = {}){
     try {
-      console.log(data)
       const result = await updatePostLikes(data);
       return result;
     }catch (error){
@@ -171,7 +166,7 @@ export const actions = {
         s : 10
       };
       const { status, data } = await getLikedPost(test);
- 
+
       commit('LIKEDPOSTS', data.posts);
 
 
@@ -195,7 +190,7 @@ export const mutations = {
       state.private[key] = keyValues[key];
     });
   },
-  LIKEDPOSTS : (state , posts) => { 
+  LIKEDPOSTS : (state , posts) => {
     state.likedPosts = posts
   }
 };

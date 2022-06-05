@@ -38,7 +38,7 @@
           :src="post.image"
         />
         <div v-if="post.likes.length <= 0" class="like-btn-empty" style="margin-top: 16px;">
-          <button class="like-btn" @click="updateLike(post.postId, post.user._id, index)">
+          <button class="like-btn" @click="updateLike(post.postId, index)">
             <i class="material-icons-outlined like-btn__icon">
               thumb_up
             </i>
