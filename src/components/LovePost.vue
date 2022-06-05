@@ -21,7 +21,7 @@
               :to="`/personal/${likePost.user._id}`"
               class="link"
             >{{ likePost.user.userName }}</router-link>
-            <p class="avatar__text">發文時間：{{ timeToLocalTime(likePost.createAt) }}</p>
+            <p class="avatar__text">發文時間：{{ timeToLocalTime(likePost.datetime_pub) }}</p>
           </div>
         </div>
         <ul class="love-post__btn-list">
@@ -35,7 +35,7 @@
             </button>
           </li>
           <li class="look">
-            <button class="love-post__btn" @click="gotoPersonalPage(likePost.userId, likePost.postId)">
+            <button class="love-post__btn" @click="gotoPersonalPage(likePost.user._id, likePost.postId)">
               <i class="material-icons-outlined love-post__btn__icon">
                 arrow_circle_right
               </i>
@@ -80,7 +80,7 @@ export default defineComponent({
     const gotoPersonalPage = (userId, postId) => {
       router.push({
         path: `/personal/${userId}`,
-        query: { postId }
+        query: { postId, userId}
       });
     };
 

@@ -25,7 +25,7 @@ export const state = {
   avatar: "",
   roles: [],
   verifyResponse: { status: "" },
-  otherUser:{},
+  otherUser: {},
   followersList: []
 };
 
@@ -106,7 +106,7 @@ export const actions = {
       console.log(error);
       return error;
     } finally {
-      dispatch("ui/toggleLoading", false, { root: true });
+      dispatch("ui/toggleLoading", false, { root: false });
     }
   },
   // user register
@@ -148,17 +148,14 @@ export const actions = {
   async getOtherUser({ commit, state, dispatch }, userId) {
     try {
       dispatch('ui/toggleLoading', true, { root: true });
-      console.log('getotherProfile1',userId)
-      const { status, data } = await getProfile(userId.id);
-      // status === 'success' && (commit('SET_PROFILE', data));
-      console.log('getotherProfile1 data',data)
+      const { status, data } = await getProfile( userId.id );
       status === true && commit("OTHERUSER", data);
-    
-
-      // commit("SET_AVATAR", data[0].avatar);
+      return data
     } catch (error) {
       console.log(error);
       return error;
+    } finally {
+      dispatch("ui/toggleLoading", false, { root: true });
     }
   },
   async getFollower({ commit, state }) {
@@ -175,11 +172,20 @@ export const actions = {
       return error;
     }
   },
-  async updateFollower({ commit, state, dispatch },id) {
+  async updateFollower({ commit, state, dispatch }, data = {}) {
     try {
-      console.log('sss',id)
-      const { status, data } = await updateFollower(id);
-      console.log(status, data);
+      dispatch('ui/toggleLoading', true, { root: true });
+
+      const result = await updateFollower(data);
+      // console.log(result);
+      if(result.status){
+        // return result.data
+        result.data?.follow && commit('OTHERUSER', result.data.follow)
+        result.data?.unfollow && commit('OTHERUSER', result.data.unfollow)
+        console.log(result.data);
+      } else {
+        console.log('updateFollower fail !')
+      }
       // status === 'success' && (commit('SET_PROFILE', data));
       // status === true && commit("FOLLOWERS", data[0].follow);
 
@@ -187,6 +193,8 @@ export const actions = {
     } catch (error) {
       console.log(error);
       return error;
+    } finally {
+      dispatch("ui/toggleLoading", false, { root: true });
     }
   },
   resetLocalStorageToken({ commit }) {

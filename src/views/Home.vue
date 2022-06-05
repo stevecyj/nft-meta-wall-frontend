@@ -34,7 +34,9 @@ export default defineComponent({
     });
 
     const sort = async (sortType) => {
-      await store.dispatch('post/fetchPublicPosts', { sortby: sortType });
+      postsList.value.length = 0;
+      await store.dispatch('post/fetchPublicPosts', { sortby: sortType, page: 1});
+      postsList.value.push(...storePost.value.posts);
     };
 
     const search = async (text) => {
@@ -65,7 +67,7 @@ export default defineComponent({
       window.addEventListener('scroll', scrollHandle);
     });
 
-    onUnmounted(async ()=>{
+    onUnmounted(()=>{
       window.removeEventListener('scroll', scrollHandle);
     })
 

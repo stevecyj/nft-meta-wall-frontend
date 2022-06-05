@@ -83,15 +83,15 @@ export const actions = {
 
       commit('UPDATE_PRIVATE_STATES', { ...filters });
 
-      const { keyword, timeSort, page ,authorId } = state.private;
+      const { keyword, sortby, page ,authorId } = state.private;
       const data = {};
       data['limit'] = state.private.limit;
       state.private.keyword !== '' && (data['keyword'] = keyword);
-      state.private.timeSort !== '' && (data['timeSort'] = timeSort);
+      state.private.sortby !== '' && (data['sortby'] = sortby);
       state.private.authorId !== '' && (data['authorId'] = authorId)
 
       typeof state.private.page === 'number' && state.private.page > 0 && (data['page'] = page);
-      console.log('data',data)
+      // console.log('data',data)
       const { status, payload: fetchData } = await getPosts({ ...data });
 
       const newData = {
@@ -208,16 +208,16 @@ export const getters = {
     };
   },
   privatePosts: (state) => {
-    const { keyword, timeSort, limit, page, count, posts, userId } = state.private;
+    const { keyword, sortby, limit, page, count, posts, authorId } = state.private;
     const hasNextPage = page < count / limit;
 
     return {
       keyword,
-      timeSort,
+      sortby,
       page,
       posts,
       hasNextPage,
-      userId,
+      authorId
     };
   },
   likedPosts : (state) => state.likedPosts
