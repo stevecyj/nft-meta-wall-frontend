@@ -150,7 +150,7 @@ export default defineComponent({
         posts.value[index].likes.splice(likeIndex, 1);
       }
       const result = store.dispatch('post/updateLikes', { postId, userId: loginUserId.value});
-      console.log(result);
+      // console.log(result);
     }
     const deleteComment = async (commentId, commentIndex, postIndex)=>{
       const result = await store.dispatch('post/delComment', { commentId });
