@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive , computed} from 'vue';
+import { defineComponent, reactive , computed, onMounted} from 'vue';
 import LovePost from '@/components/LovePost.vue';
 import { useStore } from 'vuex';
 
@@ -19,16 +19,16 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const likePosts = reactive();
 
+    onMounted(async ()=>{
+      await store.dispatch('post/getLikedPosts');
+    })
     const likedPosts = computed( () =>{
-      store.dispatch('post/getLikedPosts')
-      const data = store.getters['user/likedPosts']
+      const data = store.getters['post/likedPosts'];
       return data
     })
 
     return {
-      likePosts,
       likedPosts
     };
   }

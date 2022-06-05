@@ -14,20 +14,21 @@
         <div class="avatar">
           <img
             class="avatar__img"
-            :src="likePost.userPhoto"
+            :src="likePost.user.avatar"
           />
           <div style="margin-left: 16px;">
             <router-link
-              :to="`/personal/${likePost.userId}`"
+              :to="`/personal/${likePost.user._id}`"
               class="link"
-            >{{ likePost.userName }}</router-link>
+            >{{ likePost.user.userName }}</router-link>
             <p class="avatar__text">發文時間：{{ timeToLocalTime(likePost.createAt) }}</p>
           </div>
         </div>
         <ul class="love-post__btn-list">
           <li>
-            <button class="love-post__btn" @click="cancelLikePost(likePost.userId, likePost.postId)">
-              <i class="material-icons-outlined love-post__btn__icon blue">
+            <button class="love-post__btn" @click="cancelLikePost(likePost.postId, index)">
+              <div v-if="isLoading[index]" class="loader"></div>
+              <i v-else class="material-icons-outlined love-post__btn__icon blue">
                 thumb_up
               </i>
               <p class="love-post__btn__text fw-bold">取消</p>
@@ -48,7 +49,8 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
+import { useStore } from 'vuex';
 import { timeToLocalTime } from '@/utils/time';
 import { useRouter } from 'vue-router';
 
@@ -65,7 +67,15 @@ export default defineComponent({
   },
   setup(props) {
     const router = useRouter();
-    const likePosts = props.likePosts;
+    const store = useStore();
+    const isLoading = ref([])
+    const loginUserId = computed(()=>{
+      const data = store.getters['user/userInfo'];
+      return data.id
+    });
+    const likePosts = computed(()=>{
+      return props.likePosts
+    });
 
     const gotoPersonalPage = (userId, postId) => {
       router.push({
@@ -74,19 +84,30 @@ export default defineComponent({
       });
     };
 
-    const cancelLikePost = (userId, postId) => {
-      console.log('userId:', userId, 'postId', postId);
-    };
+    const cancelLikePost = async (postId, index) => {
+      isLoading.value[index] = true;
+      const result = await store.dispatch('post/updateLikes', { postId, userId: loginUserId.value});
+      if(result.status === 'success'){
+        likePosts.value.splice(index, 1);
+      }
+      console.log(result);
+      isLoading.value[index] = false;
+    }
 
     return {
       likePosts,
       timeToLocalTime,
       cancelLikePost,
       gotoPersonalPage,
+      isLoading
     };
   }
 });
 </script>
 
 <style lang="scss" scoped>
+.loader{
+  width: 24px;
+  height: 24px;
+}
 </style>
