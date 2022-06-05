@@ -97,7 +97,7 @@
       </div>
 
       <!-- 錯誤訊息 -->
-      <p
+      <!-- <p
         class="user-info__error-message text-align-center"
         style="margin-top: 32px;"
       >
@@ -105,7 +105,7 @@
       </p>
       <p class="user-info__error-message text-align-center">
         2. 解析度寬度至少 300像素以上，請重新輸入
-      </p>
+      </p> -->
       <button
         @click="updateProfile"
         class="btn secondary"
@@ -120,7 +120,7 @@
 <script>
 import { defineComponent } from 'vue';
 import { useStore } from 'vuex';
-import { uploadImage } from '@/api/image.js';
+import { uploadImage, uploadAvatar } from '@/api/image.js';
 import { alertSuccess, alertError } from '@/utils/swal';
 import { imageTypeRule } from '@/utils/validation';
 
@@ -179,9 +179,10 @@ export default defineComponent({
           title: title.value,
         };
 
-        const uploadResult = await uploadImage(form);
-        console.log(uploadResult);
-        return uploadResult?.data?.data?.link;
+        const uploadResult = await uploadAvatar(form);
+        // console.log('uploadResult:' + uploadResult.data.imgurl);
+        // return uploadResult?.data?.data?.link; // f2e call imgur
+        return uploadResult?.data?.imgurl; // be call imgur
       } catch (error) {
         console.log(error);
       }
@@ -211,14 +212,15 @@ export default defineComponent({
       try {
         let image = '';
         file?.size && (image = await submitImage());
-        console.log(image);
+        // console.log('image:' + image);
 
         const res = await store.dispatch('user/updateProfile', {
           userName: userName.value,
           avatar: image,
           gender: gender.value,
         });
-        alertSuccess(res);
+        // console.log(res);
+        alertSuccess('成功修改個人資料');
         await store.dispatch('user/getProfile');
       } catch (error) {
         alertError(msg.message);
