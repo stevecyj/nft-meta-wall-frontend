@@ -134,7 +134,7 @@ export default defineComponent({
     const addComment = async (postId, index) => {
       const commentData = comment.value[index];
       const result = await store.dispatch('post/addComment', { postId,  commentData});
-      console.log('post.vue:',result)
+      // console.log('post.vue:',result)
       if(result.status === 'success'){
         comment.value[index] = '';
         posts.value[index].comments.push(result.data.comments);

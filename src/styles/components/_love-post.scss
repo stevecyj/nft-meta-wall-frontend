@@ -89,6 +89,18 @@
       margin-left: 8px;
     }
   }
+  &__link{
+    cursor: pointer;
+    color: #000400;
+    font: normal normal bold 16px/24px Noto Sans TC;
+    border-color: transparent;
+    &:hover{
+      & span{
+        color: #eec32a;
+        transition:all 0.3s;
+      }
+    }
+  }
 }
 
 .love-post-empty {
@@ -133,3 +145,6 @@
     color: $Secondary;
   }
 }
+
+
+

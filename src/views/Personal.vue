@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref, computed, onMounted, onUnmounted } from 'vue';
+import { defineComponent, ref, computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, onBeforeRouteUpdate, onBeforeRouteLeave } from 'vue-router';
 import Track from '@/components/Track.vue';
@@ -41,7 +41,6 @@ export default defineComponent({
         postsList.value.push(...storePost.value.posts);
       }
     }
-
     const scrollHandle = (e)=>{
       let el = scrollComponent.value;
       if (el.getBoundingClientRect().bottom < window.innerHeight) {
@@ -50,7 +49,12 @@ export default defineComponent({
     }
 
     onMounted(async () => {
-      await store.dispatch('post/fetchPrivatePosts', { authorId: id });
+      const { postId } = route.query;
+      if(postId){
+        await store.dispatch('post/fetchPrivatePosts', { postId });
+      } else {
+        await store.dispatch('post/fetchPrivatePosts', { authorId: id });
+      }
       postsList.value.push(...storePost.value.posts);
       window.addEventListener('scroll', scrollHandle);
     });
@@ -63,7 +67,6 @@ export default defineComponent({
       const data = store.getters['post/privatePosts'];
       return data;
     });
-    // console.log(storePost);
     const sort = async (sortType) => {
       postsList.value.length = 0;
       await store.dispatch('post/fetchPrivatePosts', { sortby: sortType, page: 1});
@@ -73,7 +76,13 @@ export default defineComponent({
     const search = async (text) => {
       postsList.value.length = 0;
       await store.dispatch('post/initPrivateData');
-      await store.dispatch('post/fetchPrivatePosts', { keyword: text });
+      if(id === selfId){
+        text !== '' ?
+          await store.dispatch('post/fetchPrivatePosts', { authorId: selfId, keyword: text }):
+          await store.dispatch('post/fetchPrivatePosts', { authorId: selfId });
+      } else {
+        await store.dispatch('post/fetchPrivatePosts', { keyword: text });
+      }
       postsList.value.push(...storePost.value.posts);
     };
 
@@ -81,15 +90,13 @@ export default defineComponent({
       store.dispatch('post/initPrivateData');
     });
 
-    onBeforeRouteUpdate((to, from) => {
-      store.dispatch('post/initPrivateData');
-      if (to.params.id !== from.params.id) {
-        const newId = to.params.id;
-        isSelf.value = selfId == newId;
-        store.dispatch('post/fetchPrivatePosts', { authorId: newId });
-      }
-        store.dispatch('post/fetchPrivatePosts', { userId: newId });
-        store.dispatch('post/initPrivateData');
+    onBeforeRouteUpdate(async(to, from) => {
+      postsList.value.length = 0;
+      await store.dispatch('post/initPrivateData');
+      const newId = to.params.id;
+      isSelf.value = selfId == newId;
+      await store.dispatch('post/fetchPrivatePosts', { authorId: newId });
+      postsList.value.push(...storePost.value.posts);
     });
 
     return {
