@@ -20,7 +20,8 @@ const _initData = {
   count: 0,
   userId: getLocalStoragePID() || '',
   authorId: '',
-  posts: [],
+  postId: '',
+  posts: []
 };
 
 export const state = {
@@ -41,7 +42,8 @@ export const state = {
     limit: 10,
     page: 1,
     userId: '',
-    authorId: ''
+    authorId: '',
+    postId: ''
   },
   likedPosts: []
 };
@@ -83,12 +85,13 @@ export const actions = {
 
       commit('UPDATE_PRIVATE_STATES', { ...filters });
 
-      const { keyword, sortby, page ,authorId } = state.private;
+      const { keyword, sortby, page ,authorId, postId } = state.private;
       const data = {};
       data['limit'] = state.private.limit;
       state.private.keyword !== '' && (data['keyword'] = keyword);
       state.private.sortby !== '' && (data['sortby'] = sortby);
       state.private.authorId !== '' && (data['authorId'] = authorId)
+      state.private.postId !== '' && (data['postId'] = postId)
 
       typeof state.private.page === 'number' && state.private.page > 0 && (data['page'] = page);
       // console.log('data',data)

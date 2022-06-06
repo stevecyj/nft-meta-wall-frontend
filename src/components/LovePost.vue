@@ -17,10 +17,10 @@
             :src="likePost.user.avatar"
           />
           <div style="margin-left: 16px;">
-            <router-link
-              :to="`/personal/${likePost.user._id}`"
-              class="link"
-            >{{ likePost.user.userName }}</router-link>
+            <a
+              @click.prevent="gotoPersonalPage(likePost.user._id, likePost.postId)"
+              class="love-post__link"
+            ><span>{{ likePost.user.userName }}</span></a>
             <p class="avatar__text">發文時間：{{ timeToLocalTime(likePost.datetime_pub) }}</p>
           </div>
         </div>
@@ -80,7 +80,7 @@ export default defineComponent({
     const gotoPersonalPage = (userId, postId) => {
       router.push({
         path: `/personal/${userId}`,
-        query: { postId, userId}
+        query: { postId }
       });
     };
 
