@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="followers.length <= 0" class="concerned-empty" style="margin-top: 16px">
+    <div v-if="followers.length == 0" class="concerned-empty" style="margin-top: 16px">
       <div class="concerned-empty__title">
         <div class="concerned-empty__circle red"></div>
         <div class="concerned-empty__circle yellow"></div>
@@ -45,9 +45,9 @@ export default defineComponent({
     }
   },
   setup(props) {
-    console.log('props',props)
-    const followers = props.followers;
-
+    const followers = computed(() => {
+      return props.followers;
+    });
     return {
       followers,
       timeToLocalTime,
