@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { defineComponent, inject } from 'vue';
+import { defineComponent, inject, computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -54,6 +54,17 @@ export default defineComponent({
     const onRefresh = inject('reload');
 
     const show = ref(false);
+    const followerIdList = ref([]);
+
+    const storeFollowerList = computed(() => {
+      const data = store.getters['user/followerList'];
+      data.forEach((item) => {
+        console.log(item.id._id);
+        followerIdList.value.push(item.id._id);
+      });
+      return data;
+    });
+
     const logout = async () => {
       await store.dispatch('user/logout');
       router.push({ path: '/login' });
@@ -68,13 +79,16 @@ export default defineComponent({
     });
 
     onMounted(async () => {
-      await store.dispatch('user/getProfile',{id:userInfo._value.id});
+      await store.dispatch('user/getFollower');
+      await store.dispatch('user/getProfile', { id: userInfo._value.id });
     });
 
     return {
       userInfo,
       logout,
       handleRefresh,
+      storeFollowerList,
+      followerIdList,
     };
   },
 });
