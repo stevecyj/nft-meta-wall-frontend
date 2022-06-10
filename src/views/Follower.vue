@@ -8,9 +8,8 @@
 </template>
 
 <script>
-import { defineComponent, computed ,onMounted } from 'vue';
-import { useStore  } from 'vuex';
-
+import { defineComponent, computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
 
 import Concerned from '@/components/Concerned.vue';
 
@@ -22,21 +21,19 @@ export default defineComponent({
   setup() {
     const store = useStore();
 
-
     onMounted(async () => {
       await store.dispatch('user/getFollower');
     });
 
     const storeFollowerList = computed(() => {
-      const data = store.getters['user/followerList']
+      const data = store.getters['user/followerList'];
       return data;
     });
-
 
     return {
       storeFollowerList,
     };
-  }
+  },
 });
 </script>
 
