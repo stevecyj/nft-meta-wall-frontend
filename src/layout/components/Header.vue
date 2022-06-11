@@ -139,6 +139,7 @@ export default defineComponent({
     onMounted(async () => {
       await store.dispatch('user/getFollower');
       await store.dispatch('user/getProfile', { id: userInfo._value.id });
+      updateUserFollowers(followerIDList);
     });
 
     return {
