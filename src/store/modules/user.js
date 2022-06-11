@@ -6,7 +6,7 @@ import {
   updatePassword,
   updateProfile,
   getFollowers,
-  updateFollower
+  updateFollower,
 } from "@/api/user";
 import {
   getLocalStorageToken,
@@ -26,7 +26,7 @@ export const state = {
   roles: [],
   verifyResponse: { status: "" },
   otherUser: {},
-  followersList: []
+  followersList: [],
 };
 
 export const actions = {
@@ -147,10 +147,10 @@ export const actions = {
   },
   async getOtherUser({ commit, state, dispatch }, userId) {
     try {
-      dispatch('ui/toggleLoading', true, { root: true });
-      const { status, data } = await getProfile( userId.id );
+      dispatch("ui/toggleLoading", true, { root: true });
+      const { status, data } = await getProfile(userId.id);
       status === true && commit("OTHERUSER", data);
-      return data
+      return data;
     } catch (error) {
       console.log(error);
       return error;
@@ -162,7 +162,7 @@ export const actions = {
     try {
       const { status, data } = await getFollowers(state.id);
       // console.log(status, data[0].avatar);
-      console.log('getFollower',data[0].follow)
+      console.log("getFollower", data[0].follow);
       // status === 'success' && (commit('SET_PROFILE', data));
       status === true && commit("FOLLOWERS", data[0].follow);
 
@@ -174,17 +174,17 @@ export const actions = {
   },
   async updateFollower({ commit, state, dispatch }, data = {}) {
     try {
-      dispatch('ui/toggleLoading', true, { root: true });
+      dispatch("ui/toggleLoading", true, { root: true });
 
       const result = await updateFollower(data);
       // console.log(result);
-      if(result.status){
+      if (result.status) {
         // return result.data
-        result.data?.follow && commit('OTHERUSER', result.data.follow)
-        result.data?.unfollow && commit('OTHERUSER', result.data.unfollow)
+        result.data?.follow && commit("OTHERUSER", result.data.follow);
+        result.data?.unfollow && commit("OTHERUSER", result.data.unfollow);
         console.log(result.data);
       } else {
-        console.log('updateFollower fail !')
+        console.log("updateFollower fail !");
       }
       // status === 'success' && (commit('SET_PROFILE', data));
       // status === true && commit("FOLLOWERS", data[0].follow);
@@ -237,12 +237,12 @@ export const mutations = {
   SET_DEFAULT_RESPONSE: (state) => {
     state.verifyResponse.status = "";
   },
-  OTHERUSER : (state , userData) =>{
-    state.otherUser = userData
+  OTHERUSER: (state, userData) => {
+    state.otherUser = userData;
   },
-  FOLLOWERS : (state, followers) =>{
-    state.followersList = followers
-  }
+  FOLLOWERS: (state, followers) => {
+    state.followersList = followers;
+  },
 };
 
 export const getters = {
@@ -258,8 +258,15 @@ export const getters = {
       gender,
     };
   },
-  otherUserInfo : (state) => state.otherUser,
-  followerList : (state) => state.followersList,
+  otherUserInfo: (state) => state.otherUser,
+  followerList: (state) => state.followersList,
+  followerIDList: (state) => {
+    let arr = [];
+    state.followersList.forEach((item) => {
+      arr.push(item.id._id);
+    });
+    return arr;
+  },
   verifyResponse: (state) => {
     const { verifyResponse } = state;
 
