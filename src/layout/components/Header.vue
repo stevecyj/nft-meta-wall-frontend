@@ -92,11 +92,17 @@ export default defineComponent({
     const followerIDList = computed(() => {
       return store.getters['user/followerIDList'];
     });
+    if (!localStorage.getItem('followerIDList')) {
+      localStorage.setItem('followerIDList', JSON.stringify(followerIDList.value));
+    }
+
+    const userFollowers = JSON.parse(localStorage.getItem('followerIDList'));
+
     const updateUserFollowers = (ids) => {
       console.log(ids.value);
       socket.emit('updateUserFollowers', ids.value);
     };
-    updateUserFollowers(followerIDList);
+    updateUserFollowers(userFollowers);
 
     // 監聽貼文通知
     const notifyShow = ref(false);
@@ -137,6 +143,7 @@ export default defineComponent({
     });
 
     onMounted(async () => {
+      await store.getters['user/followerIDList'];
       await store.dispatch('user/getFollower');
       await store.dispatch('user/getProfile', { id: userInfo._value.id });
       updateUserFollowers(followerIDList);
