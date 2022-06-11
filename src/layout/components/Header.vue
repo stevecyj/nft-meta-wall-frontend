@@ -6,13 +6,14 @@
       </router-link>
       <div class="notify-container">
 
-        <div>
+        <div v-if="notificationCount>0">
           <button
             type="button"
             class="icon-button"
+            @click="handleNotify"
           >
             <span class="material-icons">notifications</span>
-            <span class="icon-button__badge">2</span>
+            <span class="icon-button__badge">{{postCount}}</span>
           </button>
         </div>
         <div class="header__avatar__dropdown">
@@ -50,7 +51,7 @@
 </template>
 
 <script>
-import { defineComponent, inject, computed, onMounted, ref } from 'vue';
+import { defineComponent, inject, computed, onMounted, ref, getCurrentInstance } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { io } from 'socket.io-client';
@@ -115,6 +116,22 @@ export default defineComponent({
       onRefresh();
     };
 
+    // handleNotify
+    const currentPath = computed(() => {
+      return router.currentRoute.value.fullPath;
+    });
+    const handleNotify = () => {
+      notificationCount.value = 0;
+      const reload = onRefresh();
+      if (currentPath === '/home') {
+        // show.value = !show.value;
+        store.dispatch('ui/toggleLoading', true);
+        reload();
+      } else {
+        router.push({ path: '/home' });
+      }
+    };
+
     const userInfo = computed(() => {
       return store.getters['user/userInfo'];
     });
@@ -132,6 +149,7 @@ export default defineComponent({
       notifyShow,
       logout,
       handleRefresh,
+      handleNotify,
     };
   },
 });
