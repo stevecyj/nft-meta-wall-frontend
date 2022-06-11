@@ -5,7 +5,7 @@
         <div class="logo">MetaWall</div>
       </router-link>
       <div class="notify-container">
-
+        <span v-if="notificationCount>0">您有新貼文</span>
         <div v-if="notificationCount>0">
           <button
             type="button"
