@@ -4,34 +4,46 @@
       <router-link to="/home">
         <div class="logo">MetaWall</div>
       </router-link>
-      <div class="header__avatar__dropdown">
-        <div class="header__avatar__dropdown__content">
-          <div class="header__avatar">
-            <img
-              :src="userInfo.avatar"
-              class="header__avatar__img"
-              alt="avatar"
-            >
-          </div>
-          <p
-            class="header__avatar__dropdown__text"
-            style="margin__left: 8px"
-          >Member {{userInfo.userName}}</p>
+      <div class="notify-container">
+
+        <div>
+          <button
+            type="button"
+            class="icon-button"
+          >
+            <span class="material-icons">notifications</span>
+            <span class="icon-button__badge">2</span>
+          </button>
         </div>
-        <ul class="header__avatar__dropdown__items">
-          <li class="header__avatar__dropdown__item">
-            <router-link :to="`/personal/${userInfo.id}`">我的貼文牆</router-link>
-          </li>
-          <li class="header__avatar__dropdown__item">
-            <router-link
-              to="/profile/index"
-              @click="handleRefresh"
-            >修改個人資料</router-link>
-          </li>
-          <li class="header__avatar__dropdown__item">
-            <a @click="logout">登出</a>
-          </li>
-        </ul>
+        <div class="header__avatar__dropdown">
+          <div class="header__avatar__dropdown__content">
+            <div class="header__avatar">
+              <img
+                :src="userInfo.avatar"
+                class="header__avatar__img"
+                alt="avatar"
+              >
+            </div>
+            <p
+              class="header__avatar__dropdown__text"
+              style="margin__left: 8px"
+            >Member {{userInfo.userName}}</p>
+          </div>
+          <ul class="header__avatar__dropdown__items">
+            <li class="header__avatar__dropdown__item">
+              <router-link :to="`/personal/${userInfo.id}`">我的貼文牆</router-link>
+            </li>
+            <li class="header__avatar__dropdown__item">
+              <router-link
+                to="/profile/index"
+                @click="handleRefresh"
+              >修改個人資料</router-link>
+            </li>
+            <li class="header__avatar__dropdown__item">
+              <a @click="logout">登出</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -74,6 +86,7 @@ export default defineComponent({
         Authorization: `Bearer ${token}`,
       },
     });
+
     // 更新追蹤名單
     const followerIDList = computed(() => {
       return store.getters['user/followerIDList'];
@@ -83,6 +96,15 @@ export default defineComponent({
       socket.emit('updateUserFollowers', ids.value);
     };
     updateUserFollowers(followerIDList);
+
+    // 監聽貼文通知
+    const notifyShow = ref(false);
+    const notificationCount = ref(0);
+    const postCount = computed(() => {
+      return notificationCount.value * 5;
+    });
+    socket.on('connect', () => socket.on('syncNotification', () => count()));
+    const count = () => (notificationCount.value += 1);
 
     const logout = async () => {
       await store.dispatch('user/logout');
@@ -105,6 +127,9 @@ export default defineComponent({
     return {
       userInfo,
       followerIDList,
+      notificationCount,
+      postCount,
+      notifyShow,
       logout,
       handleRefresh,
     };
